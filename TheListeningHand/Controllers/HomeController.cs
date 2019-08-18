@@ -26,7 +26,13 @@ namespace TheListeningHand.Controllers
 
             return View();
         }
+        
+        public ActionResult Therapeutic()
+        {
+            ViewBag.Message = "Your application description page.";
 
+            return View();
+        }
         public ActionResult Testimonials()
         {
             ViewBag.Message = "Your contact page.";

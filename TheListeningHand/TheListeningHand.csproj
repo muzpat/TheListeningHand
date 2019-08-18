@@ -362,6 +362,7 @@
     <Content Include="Views\Home\Testimonials.cshtml" />
     <Content Include="Views\Home\TestimonialsOnSite.cshtml" />
     <Content Include="Views\Home\Facts.cshtml" />
+    <Content Include="Views\Home\Therapeutic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
