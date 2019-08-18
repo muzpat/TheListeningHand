@@ -1,31 +1,521 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+    <title></title>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/pricing/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="pricing.css" rel="stylesheet">
+</head>
+
+<body>
+
+    @*<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <h5 class="my-0 mr-md-auto font-weight-normal">
+            <img width="567" height="144" src="/images/listening1.gif" border="0">
+        </h5>
+        </div>*@
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" onclick="linkaction(this)" href="#">Make a Booking</a>
+            <a class="p-2 text-dark" onclick="whoamI(this)" href="#">Stylist's Page</a>
+            @*<a class="p-2 text-dark" href="#">Management Admin</a>*@
+            @*@Html.ActionLink("Management Admin", "Management")*@
+            <a class="p-2 text-dark" href="/Home/Management">Management Admin</a>
+            <a class="p-2 text-dark" href="/Home/Blog">Blog</a>
+        </nav>
+        @*<a class="btn btn-outline-primary" href="#">Sign up</a>*@
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+
+    @*<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Pricing</h1>
+        <p class="lead">Try one of our signature Styles</p>
+    </div>*@
+
+    <div class="container">
+        <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">On-Site</h4>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title pricing-card-title"><small class="text-muted">On-Site Massage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small></h2>
+                    @*<ul class="list-unstyled mt-3 mb-4">
+                        <li>Top Stylist</li>
+                        <li>Free Shampoo</li>
+                        <li>Garnier liquids </li>
+                        <li>Wheel-chair access</li>
+                    </ul>*@
+                    <button type="button" onclick="window.location.href = '@Url.Action("Facts", "Home")';" class="btn btn-lg btn-block btn-primary">Details</button>
+                </div>
+            </div>
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Therapeutic</h4>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title pricing-card-title"><small class="text-muted">Therapeutic Massage</small></h2>
+                    @*<ul class="list-unstyled mt-3 mb-4">
+                        <li>Top Stylist</li>
+                        <li>Free Shampoo</li>
+                        <li>Garnier liquids </li>
+                        <li>Wheel-chair access</li>
+                    </ul>*@
+                    <button type="button" onclick="therapeutic();" class="btn btn-lg btn-block btn-primary">Details</button>
+                </div>
+            </div>
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Costs</h4>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title pricing-card-title"><small class="text-muted">Costings</small></h2>
+                    @*<ul class="list-unstyled mt-3 mb-4">
+                        <li>Company Pays</li>
+                        <li>/li>
+                        <li>Garnier liquids</li>
+                        <li>Wheel-chair access</li>
+                    </ul>*@
+                    <button type="button"  onclick="btCosts();" class="btn btn-lg btn-block btn-primary">Details</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="pt-4 my-md-5 pt-md-5 border-top">
+            <div class="row">
+                <div class="col-12 col-md">
+                    @*<img class="mb-2" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+                        <small class="d-block mb-3 text-muted">&copy; 2019</small>*@
+                </div>
+                <div class="col-6 col-md">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted" onclick="Contact();" href="#">Contact</a></li>
+   
+                    </ul>
+                </div>
+                <div class="col-6 col-md">
+                    <h5>References</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted" onclick="window.location.href = '@Url.Action("Testimonials", "Home")';" href="#">Testimonials</a></li>
+                        @*<li><a class="text-muted" href="#">Random feature</a></li>
+                            <li><a class="text-muted" href="#">Team feature</a></li>
+                            <li><a class="text-muted" href="#">Stuff for developers</a></li>
+                            <li><a class="text-muted" href="#">Another one</a></li>
+                            <li><a class="text-muted" href="#">Last time</a></li>*@
+                    </ul>
+                </div>
+                <div class="col-6 col-md">
+                    <h5>Jobs</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted"  onclick="recruitment(this)"  href="#">Recruitment</a></li>
+                        @*<li><a class="text-muted" href="#">Resource name</a></li>
+                            <li><a class="text-muted" href="#">Another resource</a></li>
+                            <li><a class="text-muted" href="#">Final resource</a></li>*@
+                    </ul>
+                </div>
+                <div class="col-6 col-md">
+                    <h5>About</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted" onclick="about(this)"  href="#">About</a></li>
+                        @*<li><a class="text-muted" href="#">Locations</a></li>
+                        <li><a class="text-muted" href="#">Privacy</a></li>
+                        <li><a class="text-muted" href="#">Terms</a></li>*@
+                    </ul>
+                </div>
+            </div>
+        </footer>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    @*<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+        <script src="../../assets/js/vendor/popper.min.js"></script>
+        <script src="../../dist/js/bootstrap.min.js"></script>
+        <script src="../../assets/js/vendor/holder.min.js"></script>
+        <script>
+
+        </script>*@
+
+
+
+    @section Scripts {
+        <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+        function linkaction(e) {
+
+            $('<div></div>').appendTo('body')
+            .html('<div><h6>' + 'Stylist: '
+                  + '<br/>   <p> </p>'
+        + '   <select id="postage">                      '
+        + '       <option value="">Please select...</option>    '
+        + '       <option value="1">Anyone Available</option>    '
+        + '       <option value="2">Tina Sparkle</option>      '
+        + '       <option value="3">Frank Ferret</option>      '
+        + '       <option value="4">Marie</option>      '
+        + '       <option value="5">Holly Bush</option>      '
+        + '   </select>' + '</h6></div>')
+                            .dialog({
+                                modal: true, title: 'Choose a Stylist ', zIndex: 10000, autoOpen: true,
+                                width: 'auto', resizable: false,
+                                buttons: {
+                                    Cancel: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    Book: function () {
+                                        var Name = $('#postage').find(":selected").text();
+                                        if (Name == "Anyone Available") {
+                                            window.location.href = '@Url.Action("Anyone", "Home")' + '?stylist=' + Name;
+                                        } else {
+                                              window.location.href = '@Url.Action("GoToAppointment", "Home")' + '?stylist=' + Name;
+                                        }
+
+                                        @*$.ajax({
+                                            url: '@Url.Action("GoToAppointment", "Home")',
+                                            type: 'GET',
+                                            dataType: 'html',
+                                            contentType: 'application/json; charset=utf-8',
+                                            data: { stylist: Name }
+                                        })*@
+                                        $(this).dialog("close");
+                                    }
+                                },
+                                close: function (event, ui) {
+
+                                    $(this).remove();
+                                }
+                            });
+        }
+
+            function btMassage(e) {
+                $('<div></div>').appendTo('body')
+                .html('<div><h6>' + 'Stylist: '
+                  + '<br/>   <p> </p>'
++ '           <table width="590" border="0" align="center" cellpadding="0" cellspacing="0">                                 '
++ '  <tr>                                                                                                                   '
++ '    <td background="images/sea.jpg"><table width="590" height="340" border="0" cellpadding="0" cellspacing="8">          '
++ '      <tr>                                                                                                               '
++ '        <td valign="top"><table border="0" cellspacing="0" cellpadding="0">                                              '
++ '          <tr>                                                                                                           '
++ '                <td><div align="left"> <p><span class="maintitle"><a href="onsitemassage.html" class="maintitle">What    '
++ '                    is On-Site Massage?</a> | <span class="maintitile"> <a href="benefits.html" class="maintitle">What   '
++ '                    are the Benefits?</a></span> | <a href="requirements.html" class="maintitle">Requirements</a>        '
++ '                    | <a href="facts.html" class="maintitle">Facts</a> <br />                                            '
++ '                    </span><br />                                                                                        '
++ '                    <span class="maintitle">What is On-Site Massage?</span><br />                                        '
++ '                    <span class="mainer"><br />                                                                          '
++ '                    On-Site massage is so called because it is practiced at                                              '
++ '                    your workplace.</span></p>                                                                           '
++ '                  <p><span class="mainer"> It&#8217;s a Japanese, Acupressure                                            '
++ '                    massage that leaves the body energised and the mind alert.                                           '
++ '                    The full version is 25 minutes, but a 10 minute &#8216;taster&#8217;                                 '
++ '                    version is also offered for those employees under tight                                              '
++ '                    time contraints.</span></p>                                                                          '
++ '                  <p><span class="mainer"> The massage works on pressure points                                          '
++ '                    on the upper body, working on the back, head, neck, shoulders,                                       '
++ '                    arms and hands, using elbows, thumbs and palm pressure.                                              '
++ '                    This press and release technique helps to stimulate the                                              '
++ '                    circulatory, muscular, nervous, immune and lymphatic systems                                         '
++ '                    and promotes the release of endorphins, leaving the client                                           '
++ '                    feeling good in a relaxed, but energised and clearly focused                                         '
++ '                    frame of mind.</span></p>                                                                            '
++ '                                                                                                                         '
++ '                  <p><span class="mainer"><strong>The treatment is received                                              '
++ '                    fully clothed</strong>, on a specially designed ergonomic                                            '
++ '                    chair and was designed with the pc worker in mind. All treatments                                    '
++ '                    are preceded by a brief confidential consultation to ascertain                                       '
++ '                    the individual&#8217;s needs.</span></p>                                                             '
++ '                  </td>                                                                                                  '
++ '          </tr>                                                                                                          '
++ '                                                                                                                         '
++ '        </table>                                                                                                         '
++ '</h6></div>')
+                            .dialog({
+                                modal: true, title: 'You Are? ', zIndex: 10000, autoOpen: true,
+                                width: 'auto', resizable: false,
+                                buttons: {
+                                    Cancel: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    Go: function () {
+                                        var Name = $('#postage').find(":selected").text();
+                                        window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
+
+                                        $(this).dialog("close");
+                                    }
+                                },
+                                close: function (event, ui) {
+
+                                    $(this).remove();
+                                }
+                            });
+            }
+
+        function whoamI(e) {
+
+            $('<div></div>').appendTo('body')
+            .html('<div><h6>' + 'Stylist: '
+                  + '<br/>   <p> </p>'
+        + '   <select id="postage">                      '
+        + '       <option value="">Please select...</option>    '
+     //   + '       <option value="1">Anyone Available</option>    '
+        + '       <option value="2">Tina Sparkle</option>      '
+        + '       <option value="3">Frank Ferret</option>      '
+        + '       <option value="4">Marie</option>      '
+        + '       <option value="5">Holly Bush</option>      '
+        + '   </select>' + '</h6></div>')
+                            .dialog({
+                                modal: true, title: 'You Are? ', zIndex: 10000, autoOpen: true,
+                                width: 'auto', resizable: false,
+                                buttons: {
+                                    Cancel: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    Go: function () {
+                                        var Name = $('#postage').find(":selected").text();
+                                        window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
+
+                                        $(this).dialog("close");
+                                    }
+                                },
+                                close: function (event, ui) {
+
+                                    $(this).remove();
+                                }
+                            });
+        }
+            function btCosts() {
+          
+                $('<div></div>').appendTo('body')
+.html('<div><h6>' + ' '
+      + '<br/>   <p><b>Costings for On-site massage</b> <p>'
+      + '<p>  The standard base rates for On-Site Massage are dependent</br>'
+        + 'upon the number of employees using the service, the location</br>'
+      + 'of the company and the payment option chosen (see below).</br>'
+      + 'Please call to discuss rates.</p>'
+      + '<p><b>Three payment options:</b><p>'
+      + '<p>  a) Company pays full amount, b) Company subsidises cost, c) Individual pays. </br>'
+      + '  (Here, the individual pays their company for </br>their treatment and the company then pays me)</br>'
+      + '   Discounts are available for charity organisations.<p></br>'
+       + '  <b>Daily and Half day rates are also available:</b></br>'
+       + '  <b> Daily rate:</b></br>'
+       + '   Maximum number of 12 clients for 25 minute sessions,</br> or 6 hours of mixed appointments (10 and 25 minute). </br>'
+       + ' <b>  Half day rate:</b></br>'
+       + '   Maximum number of 6 clients for 25 minute sessions,</br> or</br> 3 hours of mixed appointments.</br>'
+       + '<b>Cancellation policy:</b></br> '
+        + '24 hours notice is required for any cancellations. Cancellations on the day of attendance are</br> charged at the full rate.'
+         + '</h6></div>')
+                .dialog({
+                    modal: true, title: 'The Listening Hand Pricing ', zIndex: 10000, autoOpen: true,
+                    width: 'auto', resizable: false,
+                    buttons: {
+                        Cancel: function () {
+                            $(this).dialog("close");
+                        },
+                        @*Go: function () {
+                            var Name = $('#postage').find(":selected").text();
+                            window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
+
+                            $(this).dialog("close");
+                        }*@
+                    },
+                    close: function (event, ui) {
+
+                        $(this).remove();
+                    }
+                });
+            }
+            function about() {
+          
+                $('<div></div>').appendTo('body')
+.html('<div><h6>' + ' '
+      + '<br/>   <p><b>The Listening Hand</b> was founded by Georgina Petrou in 2000 to promote Health' 
+        + ' and Positivity</br> in the individual and the workplace.'
+        + ' <p>Offering ‘On-Site’ (Seated Acupressure) massage to corporations</br> at competitive rates, we focus' 
+        +  ' on the individual needs of each company and every client within.</p></br>'
+        + '<p>The Listening Hand is far more than an ‘agency’ for On-site massage therapists. Our service is</br>'
+        + 'tailor made to your working environment and ethos, with a qualified therapist dedicated to your site.</p>'
+        + '<p>This ensures you and your employees receive the highest standard of personal attention and </br>'
+        + 'gain the maximum benefit from this service</p>'
+        + '<p> All of our therapists are professionals; qualified, registered and insured.</p> '
+         + '</h6></div>')
+                .dialog({
+                    modal: true, title: 'About ', zIndex: 10000, autoOpen: true,
+                    width: 'auto', resizable: false,
+                    buttons: {
+                        Cancel: function () {
+                            $(this).dialog("close");
+                        },
+                        @*Go: function () {
+                            var Name = $('#postage').find(":selected").text();
+                            window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
+
+                            $(this).dialog("close");
+                        }*@
+                        },
+                    close: function (event, ui) {
+
+                        $(this).remove();
+                    }
+                });
+            }
+            function therapeutic() {
+          
+                $('<div></div>').appendTo('body')
+.html('<div><h6>' + ' '
+      + '<div align="left" class="mainer"><span class="maintitle">What is Therapeutic Massage?</span><br />                            '
+  + '              <br />                                                                                                              '
+  + '                      It is a massage technique performed on a massage table                                                      '
+  + '                      or couch, with oils directly applied to the skin.</br> It encourages                                             '
+  + '                      the body to heal itself by restoring its strength and                                                       '
+  + '                      vitality.<br />                                                                                             '
+  + '      <br />                                                                                                                      '
+  + '      Using specific treatment patterns, it can be used to relieve various problems including: <br />                             '
+  + '      <br />                                                                                                                      '
+  + '      <table width="100%" border="0" cellspacing="0" cellpadding="0">                                                             '
+  + '      <tr>                                                                                                                        '
+  + '                          <td>Back pain <br /> Sports injuries<br /> Headaches<br /> Muscle tension                               '
+  + '                            and fatigue<br />Muscle related illnesses<br />Old or recent                                          '
+  + '                            injuries<br />Shoulder tension<br />Pregnancy aches and pains<br />Hypertension<br /></td>            '
+  + '      <td width="25">&nbsp;</td>                                                                                                  '
+  + '                          <td valign="top">Whiplash<br />RSI<br />Hyperglycaemia<br />Anxiety<br />Stress<br />Menstrual          '
+  + '                            pains<br />Post surgery muscle pain<br />General aches and pains<br />Or                              '
+  + '                            just enjoyed for pure relaxation.</td>                                                                '
+  + '      </tr>                                                                                                                       '
+  + '      </table>                                                                                                                    '
+  + '      <br />All treatments are subject to a confidential consultation and usually last 1 hour.                                    '
+  + '                      <br />                                                                                                      '
+  + '                      30 minute and 90 minute sessions are also available. <br />                                                 '
+  + '                      <br />Please contact Georgina to discuss the best treatment                                                 '
+  + '                      for you, and arrange appointment times.<br />                                                               '
+  + '                    </div>                                                                                                        '
+  + '    </div>  '
+         + '</h6></div>')
+                .dialog({
+                          modal: true, title: 'The Listening Hand Pricing ', zIndex: 10000, autoOpen: true,
+                          width: 'auto', resizable: false,
+                          buttons: {
+                          Cancel: function () {
+                            $(this).dialog("close");
+                      },
+                        @*Go: function () {
+                            var Name = $('#postage').find(":selected").text();
+                            window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
+
+                            $(this).dialog("close");
+                      }*@
+                        },
+                  close: function (event, ui) {
+
+                      $(this).remove();
+                  }
+                  });
+                  }
+
+
+            function recruitment() {
+          
+                $('<div></div>').appendTo('body')
+.html('<div><h6>' + ' '
+      + '<br/>   <p><b>Recruitment</b> <p>'
+      + '<p> Positions are available for On-Site massage practitioners who are qualified, registered and insured.</p>'
+      + '<p>Please forward CV and covering email to: recruitment@thelisteninghand.co.uk </p>'
+      + '<p>Or contact by phone on 07752 552 744. </p>'
+         + '</h6></div>')
+                .dialog({
+                    modal: true, title: 'The Listening Hand Pricing ', zIndex: 10000, autoOpen: true,
+                    width: 'auto', resizable: false,
+                    buttons: {
+                        Cancel: function () {
+                            $(this).dialog("close");
+                        },
+                        @*Go: function () {
+                            var Name = $('#postage').find(":selected").text();
+                            window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
+
+                            $(this).dialog("close");
+                        }*@
+                        },
+                    close: function (event, ui) {
+
+                        $(this).remove();
+                    }
+                });
+            }
+
+            function Contact() {
+                                                                                                                                                                                                   
+                $('<div></div>').appendTo('body')                                                                                                                                                  
+.html('<div><h6>'                                                                                                                                                                             
+     + ' <table width="590" height="340" border="0" cellpadding="0" cellspacing="8">                                                                                                               '
+     + ' <tr>                                                                                                                                                                                      '
+     + '   <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">                                                                                                        '
+     + '     <tr>                                                                                                                                                                                  '
+     + '       <td valign="top"><div align="left">                                                                                                                                                 '
+     + '               <p><span class="maintitle">Contact Us<br />                                                                                                                                 '
+     + '                 <br />                                                                                                                                                                    '
+     + '                 </span><span class="mainer"> If you would like more information                                                                                                           '
+     + '                 regarding services or therapies, please email:</span></p>                                                                                                                 '
+     + '               <p><span class="mainer"><a href="mailto:info@thelisteninghand.co.uk" class="mainer"><strong>info@thelisteninghand.co.uk</strong></a></span></p>                             '
+     + '             </div>                                                                                                                                                                        '
+     + '             <p align="left"><span class="mainer">If you would like information                                                                                                            '
+     + '               on joining The Listening Hand as a therapist, please email:</span></p>                                                                                                      '
+     + '             <p align="left"><span class="mainer"><a href="mailto:recruitment@thelisteninghand.co.uk" class="mainer"><strong>recruitment@thelisteninghand.co.uk</strong></a></span></p>    '
+     + '             <p align="left"><span class="mainer">If you would like to                                                                                                                     '
+     + '               speak to Georgina , please call:</span></p>                                                                                                                                 '
+     + '             <p align="left"><span class="mainer"><strong>07752 552 744<br />                                                                                                              '
+     + '               </strong></span><span class="mainer">(Call/voicemail/text)</span><br />                                                                                                     '
+     + '             </p>                                                                                                                                                                          '
+     + '             </td>                                                                                                                                                                         '
+     + '     </tr>                                                                                                                                                                                 '
+     + '     <tr>                                                                                                                                                                                  '
+     + '       <td><br /></td>                                                                                                                                                                     '
+     + '     </tr>                                                                                                                                                                                 '
+     + '   </table>                                                                                                                                                                                '                                                                                                                                                                                    
+         + '</h6></div>')
+                .dialog({
+                    modal: true, title: 'The Listening Hand Pricing ', zIndex: 10000, autoOpen: true,
+                    width: 'auto', resizable: false,
+                    buttons: {
+                        Cancel: function () {
+                            $(this).dialog("close");
+                        },
+                        @*Go: function () {
+                            var Name = $('#postage').find(":selected").text();
+                            window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
+
+                            $(this).dialog("close");
+                        }*@
+                        },
+                    close: function (event, ui) {
+
+                        $(this).remove();
+                    }
+                });
+            }
+
+
+
+
+        </script>
+
+    }
+</body>
+</html>
+
+
