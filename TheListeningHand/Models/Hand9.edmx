@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TheListeningHandModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="availability">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stylistId" Type="int" />
+          <Property Name="dayId" Type="int" />
+          <Property Name="starttime" Type="int" />
+          <Property Name="time" Type="int" />
+        </EntityType>
+        <EntityType Name="day">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="day" Type="varchar" MaxLength="9" />
+        </EntityType>
+        <EntityType Name="stylists">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="40" />
+          <Property Name="email" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <Function Name="spGetAvailabilty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="thelisteninghand">
+          <Parameter Name="stylist" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="spUpdateAvailabilty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="thelisteninghand">
+          <Parameter Name="stylist" Type="smallint" Mode="In" />
+          <Parameter Name="hrs" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="TheListeningHandModelStoreContainer">
+          <EntitySet Name="availability" EntityType="Self.availability" Schema="thelisteninghand" store:Type="Tables" />
+          <EntitySet Name="day" EntityType="Self.day" Schema="thelisteninghand" store:Type="Tables" />
+          <EntitySet Name="stylists" EntityType="Self.stylists" Schema="thelisteninghand" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TheListeningHandModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TheListeningHandEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="days" EntityType="TheListeningHandModel.day" />
+          <FunctionImport Name="spGetAvailabilty" ReturnType="Collection(TheListeningHandModel.spGetAvailabilty_Result4)">
+          <Parameter Name="stylist" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateAvailabilty" ReturnType="Collection(TheListeningHandModel.spUpdateAvailabilty_Result1)">
+            <Parameter Name="stylist" Mode="In" Type="Int16" />
+            <Parameter Name="hrs" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="stylists" EntityType="TheListeningHandModel.stylist" />
+          <EntitySet Name="availabilities" EntityType="TheListeningHandModel.availability" />
+        </EntityContainer>
+        <EntityType Name="day">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="day1" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spGetAvailabilty_Result" />
+        <ComplexType Name="spUpdateAvailabilty_Result" />
+        <ComplexType Name="spGetAvailabilty_Result1" />
+        <ComplexType Name="spGetAvailabilty_Result2" />
+        <ComplexType Name="spGetAvailabilty_Result3" />
+        <ComplexType Name="spGetAvailabilty_Result4" />
+        <ComplexType Name="spUpdateAvailabilty_Result1" />
+        <EntityType Name="stylist">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="availability">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="stylistId" Type="Int32" />
+          <Property Name="dayId" Type="Int32" />
+          <Property Name="starttime" Type="Int32" />
+          <Property Name="time" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TheListeningHandModelStoreContainer" CdmEntityContainer="TheListeningHandEntities">
+          <EntitySetMapping Name="days">
+            <EntityTypeMapping TypeName="TheListeningHandModel.day">
+              <MappingFragment StoreEntitySet="day">
+                <ScalarProperty Name="day1" ColumnName="day" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spGetAvailabilty" FunctionName="TheListeningHandModel.Store.spGetAvailabilty">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TheListeningHandModel.spGetAvailabilty_Result4" />
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spUpdateAvailabilty" FunctionName="TheListeningHandModel.Store.spUpdateAvailabilty">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TheListeningHandModel.spUpdateAvailabilty_Result1" />
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="stylists">
+            <EntityTypeMapping TypeName="TheListeningHandModel.stylist">
+              <MappingFragment StoreEntitySet="stylists">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="availabilities">
+            <EntityTypeMapping TypeName="TheListeningHandModel.availability">
+              <MappingFragment StoreEntitySet="availability">
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="starttime" ColumnName="starttime" />
+                <ScalarProperty Name="dayId" ColumnName="dayId" />
+                <ScalarProperty Name="stylistId" ColumnName="stylistId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

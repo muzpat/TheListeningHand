@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+
+<div id="Grid"></div>
+<div id="Grid2"></div>
+<div id="Grid3"></div>
+
+@section Scripts {
+    <script type="text/javascript">
+        do_ajax();
+        function do_ajax(ajaxes) {
+
+            $.ajax({
+                url: "@Url.Action("GetUsers", "Home")",
+                type: "GET",
+                dataType: 'json',
+                data: { stylist: 1 },
+                cache: false,
+                async: true,
+                success: function (data) {
+
+                    //  var json_parsed = $.parseJSON(data);
+                    var json_parsed = data;
+                    var row = '<table>';
+                    //   debugger;
+                    $("#Grid").empty();
+                    $("#Grid2").empty();
+                    $("#Grid3").empty();
+
+                    var items = json_parsed;
+                    var backcolor = 'E5E8E8';
+                    $('#Grid').append('<table><thead>     <tr>       ');
+                    // headings
+                    $('#Grid').append(' <th>&nbsp&nbsp' + 'id' + '&nbsp&nbsp</th><th>&nbsp&nbsp' + 'name' + '&nbsp&nbsp</th>');
+                    $('#Grid').append('</tr> </thead>');
+
+                    // data
+                    for (var i = 0; i < items.length; i++) {
+                        row = row + '<tr> ';
+                        row = row + '<td bgcolor=' + backcolor + '>&nbsp&nbsp' + items[i].id + '&nbsp&nbsp</td>';
+                        row = row + '<td bgcolor=' + backcolor + '>&nbsp&nbsp' + items[i].name + '&nbsp&nbsp</td>';
+                        var j = 0;
+
+                        for (j = 0; j < 24; j++) {
+                            row = row + '<td><input type="checkbox" name="hours' + items[i].id + '" id=' + j.toString() + ':00"' + ' value="' + j.toString() + ':00"' + '>' + j.toString() + ":00" + '</input></td>';
+                        }
+            
+                        row = row + '<td><button type ="button" id="update' + items[i].id + '" class="btn btn-primary"  >Update</button></td>';
+                        $('#Grid').append(row);
+                        var chk1 = $('#update' + items[i].id);
+            
+                        $('#update' + items[i].id).attr('onClick', 'updateuser(this);')
+                        row = '';
+                    }
+                  
+                    row = row + '</tr></table>'
+          
+                    $('#Grid').append(row);
+       
+                    $('#Grid').append('');
+                },
+                error: function (xhr) {
+                    debugger;
+                    alert('Request Status ' + xhr.status + ' Status Text (a) ' + xhr.statusText + ' ' + xhr.responseText);
+                }
+            })
+        };
+        function updateuser(e) {
+            var id = e.id.replace('update', '');
+            var parm = 'hours' + id.toString();
+            var availability = { hrs: [], };
+            var sbox = document.getElementsByName(parm);
+            for (var i = 0; i < sbox.length; i++) {
+                availability.hrs.push(sbox[i].checked);
+            }
+            console.log(availability.hrs);
+            debugger;
+            var parm2 = JSON.stringify(availability);
+            $.ajax({
+                url: "@Url.Action("UpdateUser", "Home")",
+                type: "GET",
+                dataType: 'json',
+                data: { stylist: 1, arrayhrs: parm2  },
+                cache: false,
+                async: true,
+                success: function (data) {
+                    debugger;
+                },
+                error: function (xhr) {
+                    debugger;
+                    alert('Request Status ' + xhr.status + ' Status Text (a) ' + xhr.statusText + ' ' + xhr.responseText);
+                }
+            })
+            }
+
+    </script>
+}
+

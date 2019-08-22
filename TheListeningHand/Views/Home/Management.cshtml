@@ -1,0 +1,179 @@
+﻿
+<meta name="viewport" content="width=device-width" />
+
+
+
+<div class="container">
+    @*<h1>@ViewBag.Stylist</h1>*@
+    <h2 style="align-content:center">Salon Appointments by Day</h2>
+    @*@Html.ActionLink("Home", "Index", "Home")*@
+    <table class="table table_condensed" id="Grid"></table>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+                             $.ajax({
+                                 url: '@Url.Action("GetAllAppointments", "Home")',
+                                 type: 'GET',
+                                 dataType: 'html',
+                                 contentType: 'application/json; charset=utf-8',
+                                 data: {  },
+                                 success: OnSuccess,
+                                 error: OnErrorCall
+                             })
+
+            var array = @Html.Raw(Json.Encode(ViewBag.BookingDates));
+            var arraydays = @Html.Raw(Json.Encode(ViewBag.BookingDays));
+            var row = '<div  id="rw1" class="row">  ';
+            array.forEach(function(item, index) {
+
+                if (index == 7) {
+                    row = row + '</br></br>'
+                    row = row + ' </div> <div id="rw2" class="row"><div id="col2" class="col">         <div id="crd" class="card" style="width: 18rem;">            <div id="ch" class="card-header">';
+                } else  {
+                    row = row + '    <div id="col1" class="col">         <div class="card"   id="card2" style="width: 18rem;">            <div  id="ch2" class="card-header">';
+                }
+
+                row = row + '<b>' +  arraydays[index] + '</b></br>' + item ;
+                row = row + '</div> <ul class="list-group list-group-flush"> <li     class="list-group-item"><a  id="a'   + item.replace('/','').replace('/','') +     '9"   href="#"  class="mylink" style= "color:blue">9:00</a></li>';
+                row = row +                                                ' <li     class="list-group-item"><a  id="a'  + item.replace('/','').replace('/','') +     '10" href="#" class="mylink" style= "color:blue">10:00</a></li>';
+                row = row +                                                ' <li     class="list-group-item"><a  id="a'  + item.replace('/','').replace('/','') +     '11" href="#" class="mylink" style= "color:blue">11:00</a></li>';
+                row = row +                                                ' <li     class="list-group-item"><a  id="a'  + item.replace('/','').replace('/','') +     '12" href="#" class="mylink" style= "color:blue">12:00</a></li>';
+                row = row +                                                ' <li     class="list-group-item"><a  id="a'  + item.replace('/','').replace('/','') +     '13" href="#" class="mylink" style= "color:blue">13:00</a></li>';
+                row = row +                                                ' <li     class="list-group-item"><a  id="a'  + item.replace('/','').replace('/','') +     '14" href="#" class="mylink" style= "color:blue">14:00</a></li>';
+                row = row +                                                ' <li     class="list-group-item"><a  id="a'  + item.replace('/','').replace('/','') +     '15" href="#" class="mylink" style= "color:blue">15:00</a></li>';
+                row = row +                                                ' <li     class="list-group-item"><a  id="a'  + item.replace('/','').replace('/','') +     '16" href="#" class="mylink" style= "color:blue">16:00</a></li>';
+                row = row +                                                ' <li     class="list-group-item"><a  id="a'  + item.replace('/','').replace('/','') +     '17"  href="#" class="mylink" style= "color:blue">17:00</a></li>';
+                row = row +      '</ul>   </div>  </div>'
+
+            //    $('#Grid').append(row);
+             //   row = '';
+            });
+            row = row +      '</div> '
+            $('#Grid').append(row);
+
+            row = '';
+
+            array.forEach(function(item, index) {
+
+                var myId = 'a' +  item.replace('/','').replace('/','') + '9';
+                $('#' + myId ).attr('onClick', 'linkaction(this);');
+                myId = 'a' +  item.replace('/','').replace('/','') + '10';
+                $('#' + myId ).attr('onClick', 'linkaction(this);');
+                myId = 'a' +  item.replace('/','').replace('/','') + '11';
+                $('#' + myId ).attr('onClick', 'linkaction(this);');
+                myId = 'a' +  item.replace('/','').replace('/','') + '12';
+                $('#' + myId ).attr('onClick', 'linkaction(this);');
+                myId = 'a' +  item.replace('/','').replace('/','') + '13';
+                $('#' + myId ).attr('onClick', 'linkaction(this);');
+                myId = 'a' +  item.replace('/','').replace('/','') + '14';
+                $('#' + myId ).attr('onClick', 'linkaction(this);');
+                myId = 'a' +  item.replace('/','').replace('/','') + '15';
+                $('#' + myId ).attr('onClick', 'linkaction(this);');
+                myId = 'a' +  item.replace('/','').replace('/','') + '16';
+                $('#' + myId ).attr('onClick', 'linkaction(this);');
+                myId = 'a' +  item.replace('/','').replace('/','') + '17';
+                $('#' + myId ).attr('onClick', 'linkaction(this);');
+
+            });
+
+
+        });
+
+        function OnSuccess(response) {
+            // alert('here');
+            var data = $.parseJSON(response);
+
+            //   alert(data.BeeHive[0].beeType);
+            $('#Grid').append('<table><tr><th>Date</th><th>Time</th><th>Stylist</th><th>Customer</th><th>Phone</th><th>Style</th><th>Info</th></tr>');
+
+            for (var i = 0; i < data.length; ++i) {
+                //                 $('#Grid').append('<div class="name">' + ToJavaScriptDate(data[i].review_date) + ' ' + data[i].review_stage
+                //                     + ' ' + data[i].ops_product_id + ' ' + data[i].ProducT_sub_group_code
+                //                     + '</>');
+
+                $('#Grid').append('<tr bgcolor="#42f489"><td>' + data[i].date + '</td><td>' + data[i].time + '</td><td>'
+                               + data[i].stylist + '</td><td>' + data[i].name + '</td><td>' + data[i].phone + '</td><td>'
+                               + data[i].style + '</td><td>' + data[i].info + '</td><td>'
+                   + '</td></tr>');
+            }
+            $('#Grid').append('</table>');
+           // myLoop();
+        }
+        function OnErrorCall(jqXHR, textStatus, errorThrown) {
+            debugger;
+            alert(jqXHR.responseText);
+            console.log("error - Ajax call has failed: <br />Err: " + errorThrown + "<br />textStatus: " + textStatus + "<br />ResponseText: " + jqXHR.responseText);
+        }
+
+        $(".mylink").click(function (e) {
+
+            var ch = e;
+            debugger;
+            alert('here!');
+        });
+        function book(name, e) {
+            var myId = e.id;
+            var Xexisting =  $('#' + myId )
+            var existing =  $('#' + myId ).text();
+
+            existing = existing + ' ' + name;
+            $('#' + myId ).html( existing);
+          //  debugger;
+        }
+        function linkaction(e) {
+        //   if (typeof jQuery.ui != 'undefined') {
+        //       alert('no UI!!');
+        //   }
+        //   else{
+        //       alert('jQuery.ui loaded');
+        //   }
+            var ch = e.text.length;
+            if (ch > 5) {
+                alert('This slot is already booked!');
+            } else {
+
+                $('<div></div>').appendTo('body')
+                    .html('<div><h6>' + 'Booker: '
+                          + '<br/>   <p> </p>'
+                          + '<table><tr><td>'
+        + '   <label><b>Name</label>&nbsp</td><td><input type="text" id="inname"</input></td></tr><tr>         '
+        + '   <td><label><b>Phone</label></td><td><input type="text" id="inphone"</input></td></tr><tr>              '
+        + '    <td><label><b>Style/Treatment</label> </td> <td><input type="text" id="instyle"</input></td></tr><tr>       '
+        + '    <td><label><b>Info for Stylist</label> </td> <td><input type="text" id="ininfo"</input> </td></tr></table>    '
+       + '</h6></div>')
+                    .dialog({
+                        modal: true, title: 'Booking Details ', zIndex: 10000, autoOpen: true,
+                        width: 'auto', resizable: false,
+                        buttons: {
+                            Cancel: function () {
+                                $(this).dialog("close");
+                            },
+                            Book: function () {
+                                var Name = $('#inname').val();
+                                book(Name, e);
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function (event, ui) {
+
+                            $(this).remove();
+                        }
+                    });
+            }
+        }
+
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+

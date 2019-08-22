@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@model List<SelectListItem>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -22,20 +23,22 @@
 
 
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-        @*<nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" onclick="linkaction(this)" href="#">Make a Booking</a>
-            <a class="p-2 text-dark" onclick="whoamI(this)" href="#">Stylist's Page</a>
+        <nav class="my-2 my-md-0 mr-md-3">
+                <a class="p-2 text-dark" onclick="linkaction(this)" href="#">Make a Booking</a>
+                <a class="p-2 text-dark" onclick="whoamI(this)" href="#">Stylist's Page</a>
 
-            <a class="p-2 text-dark" href="/Home/Management">Management Admin</a>
-            <a class="p-2 text-dark" href="/Home/Blog">Blog</a>
-        </nav>*@
- 
+                <a class="p-2 text-dark" href="/Home/Management">Management Admin</a>
+                <a class="p-2 text-dark" href="/Home/Blog">Blog</a>
+            <a class="p-2 text-dark" href="/Home/Users">Users</a>
+            </nav>
+
     </div>
 
     @*<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Pricing</h1>
-        <p class="lead">Try one of our signature Styles</p>
-    </div>*@
+            <h1 class="display-4">Pricing</h1>
+            <p class="lead">Try one of our signature Styles</p>
+        </div>*@
+
 
     <div class="container">
         <div class="card-deck mb-3 text-center">
@@ -46,11 +49,11 @@
                 <div class="card-body">
                     <h2 class="card-title pricing-card-title"><small class="text-muted">On-Site Massage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small></h2>
                     @*<ul class="list-unstyled mt-3 mb-4">
-                        <li>Top Stylist</li>
-                        <li>Free Shampoo</li>
-                        <li>Garnier liquids </li>
-                        <li>Wheel-chair access</li>
-                    </ul>*@
+                            <li>Top Stylist</li>
+                            <li>Free Shampoo</li>
+                            <li>Garnier liquids </li>
+                            <li>Wheel-chair access</li>
+                        </ul>*@
                     <button type="button" onclick="window.location.href = '@Url.Action("Facts", "Home")';" class="btn btn-lg btn-block btn-primary">Details</button>
                 </div>
             </div>
@@ -61,11 +64,11 @@
                 <div class="card-body">
                     <h2 class="card-title pricing-card-title"><small class="text-muted">Therapeutic Massage</small></h2>
                     @*<ul class="list-unstyled mt-3 mb-4">
-                        <li>Top Stylist</li>
-                        <li>Free Shampoo</li>
-                        <li>Garnier liquids </li>
-                        <li>Wheel-chair access</li>
-                    </ul>*@
+                            <li>Top Stylist</li>
+                            <li>Free Shampoo</li>
+                            <li>Garnier liquids </li>
+                            <li>Wheel-chair access</li>
+                        </ul>*@
                     <button type="button" onclick="window.location.href = '@Url.Action("Therapeutic", "Home")';" class="btn btn-lg btn-block btn-primary">Details</button>
                 </div>
             </div>
@@ -76,12 +79,12 @@
                 <div class="card-body">
                     <h2 class="card-title pricing-card-title"><small class="text-muted">Costings</small></h2>
                     @*<ul class="list-unstyled mt-3 mb-4">
-                        <li>Company Pays</li>
-                        <li>/li>
-                        <li>Garnier liquids</li>
-                        <li>Wheel-chair access</li>
-                    </ul>*@
-                    <button type="button"  onclick="btCosts();" class="btn btn-lg btn-block btn-primary">Details</button>
+                            <li>Company Pays</li>
+                            <li>/li>
+                            <li>Garnier liquids</li>
+                            <li>Wheel-chair access</li>
+                        </ul>*@
+                    <button type="button" onclick="btCosts();" class="btn btn-lg btn-block btn-primary">Details</button>
                 </div>
             </div>
         </div>
@@ -96,7 +99,7 @@
                     <h5>Contact Us</h5>
                     <ul class="list-unstyled text-small">
                         <li><a class="text-muted" onclick="Contact();" href="#">Contact</a></li>
-   
+
                     </ul>
                 </div>
                 <div class="col-6 col-md">
@@ -113,7 +116,7 @@
                 <div class="col-6 col-md">
                     <h5>Jobs</h5>
                     <ul class="list-unstyled text-small">
-                        <li><a class="text-muted"  onclick="recruitment(this)"  href="#">Recruitment</a></li>
+                        <li><a class="text-muted" onclick="recruitment(this)" href="#">Recruitment</a></li>
                         @*<li><a class="text-muted" href="#">Resource name</a></li>
                             <li><a class="text-muted" href="#">Another resource</a></li>
                             <li><a class="text-muted" href="#">Final resource</a></li>*@
@@ -122,10 +125,10 @@
                 <div class="col-6 col-md">
                     <h5>About</h5>
                     <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" onclick="about(this)"  href="#">About</a></li>
+                        <li><a class="text-muted" onclick="about(this)" href="#">About</a></li>
                         @*<li><a class="text-muted" href="#">Locations</a></li>
-                        <li><a class="text-muted" href="#">Privacy</a></li>
-                        <li><a class="text-muted" href="#">Terms</a></li>*@
+                            <li><a class="text-muted" href="#">Privacy</a></li>
+                            <li><a class="text-muted" href="#">Terms</a></li>*@
                     </ul>
                 </div>
             </div>
@@ -149,53 +152,49 @@
 
     @section Scripts {
         <script type="text/javascript">
-        $(document).ready(function () {
+            $(document).ready(function () {
 
-        });
-        function linkaction(e) {
 
-            $('<div></div>').appendTo('body')
-            .html('<div><h6>' + 'Stylist: '
-                  + '<br/>   <p> </p>'
-        + '   <select id="postage">                      '
-        + '       <option value="">Please select...</option>    '
-        + '       <option value="1">Anyone Available</option>    '
-        + '       <option value="2">Tina Sparkle</option>      '
-        + '       <option value="3">Frank Ferret</option>      '
-        + '       <option value="4">Marie</option>      '
-        + '       <option value="5">Holly Bush</option>      '
-        + '   </select>' + '</h6></div>')
-                            .dialog({
-                                modal: true, title: 'Choose a Stylist ', zIndex: 10000, autoOpen: true,
-                                width: 'auto', resizable: false,
-                                buttons: {
-                                    Cancel: function () {
-                                        $(this).dialog("close");
-                                    },
-                                    Book: function () {
-                                        var Name = $('#postage').find(":selected").text();
-                                        if (Name == "Anyone Available") {
-                                            window.location.href = '@Url.Action("Anyone", "Home")' + '?stylist=' + Name;
-                                        } else {
-                                              window.location.href = '@Url.Action("GoToAppointment", "Home")' + '?stylist=' + Name;
-                                        }
+            });
+            function unescapeHTML(escapedHTML) {
+                return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+            }
+            function linkaction(e) {
+                var myLine = '<div><h6>Stylist: <br/>   <p> </p>' + unescapeHTML('@ViewBag.dropdowntext') + '</h6></div>';
+             
+                $('<div></div>').appendTo('body')
+                .html(myLine)
+                                .dialog({
+                                    modal: true, title: 'Choose a Stylist ', zIndex: 10000, autoOpen: true,
+                                    width: 'auto', resizable: false,
+                                    buttons: {
+                                        Cancel: function () {
+                                            $(this).dialog("close");
+                                        },
+                                        Book: function () {
+                                            var Name = $('#postage').find(":selected").text();
+                                            if (Name == "Anyone Available") {
+                                                window.location.href = '@Url.Action("Anyone", "Home")' + '?stylist=' + Name;
+                                            } else {
+                                                window.location.href = '@Url.Action("GoToAppointment", "Home")' + '?stylist=' + Name;
+                                            }
 
-                                        @*$.ajax({
+                                            @*$.ajax({
                                             url: '@Url.Action("GoToAppointment", "Home")',
                                             type: 'GET',
                                             dataType: 'html',
                                             contentType: 'application/json; charset=utf-8',
                                             data: { stylist: Name }
                                         })*@
-                                        $(this).dialog("close");
-                                    }
-                                },
-                                close: function (event, ui) {
+                                            $(this).dialog("close");
+                                        }
+                                    },
+                                    close: function (event, ui) {
 
-                                    $(this).remove();
-                                }
-                            });
-        }
+                                        $(this).remove();
+                                    }
+                                });
+            }
 
             function btMassage(e) {
                 $('<div></div>').appendTo('body')
@@ -261,41 +260,34 @@
                             });
             }
 
-        function whoamI(e) {
+            function whoamI(e) {
 
-            $('<div></div>').appendTo('body')
-            .html('<div><h6>' + 'Stylist: '
-                  + '<br/>   <p> </p>'
-        + '   <select id="postage">                      '
-        + '       <option value="">Please select...</option>    '
-     //   + '       <option value="1">Anyone Available</option>    '
-        + '       <option value="2">Tina Sparkle</option>      '
-        + '       <option value="3">Frank Ferret</option>      '
-        + '       <option value="4">Marie</option>      '
-        + '       <option value="5">Holly Bush</option>      '
-        + '   </select>' + '</h6></div>')
-                            .dialog({
-                                modal: true, title: 'You Are? ', zIndex: 10000, autoOpen: true,
-                                width: 'auto', resizable: false,
-                                buttons: {
-                                    Cancel: function () {
-                                        $(this).dialog("close");
+                $('<div></div>').appendTo('body')
+                var myLine = '<div><h6>Stylist: <br/>   <p> </p>' + unescapeHTML('@ViewBag.dropdowntext') + '</h6></div>';
+                $('<div></div>').appendTo('body')
+                .html(myLine)
+                                .dialog({
+                                    modal: true, title: 'You Are? ', zIndex: 10000, autoOpen: true,
+                                    width: 'auto', resizable: false,
+                                    buttons: {
+                                        Cancel: function () {
+                                            $(this).dialog("close");
+                                        },
+                                        Go: function () {
+                                            var Name = $('#postage').find(":selected").text();
+                                            window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
+
+                                            $(this).dialog("close");
+                                        }
                                     },
-                                    Go: function () {
-                                        var Name = $('#postage').find(":selected").text();
-                                        window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
+                                    close: function (event, ui) {
 
-                                        $(this).dialog("close");
+                                        $(this).remove();
                                     }
-                                },
-                                close: function (event, ui) {
-
-                                    $(this).remove();
-                                }
-                            });
-        }
+                                });
+            }
             function btCosts() {
-          
+
                 $('<div></div>').appendTo('body')
 .html('<div><h6>' + ' '
       + '<br/>   <p><b>Costings for On-site massage</b> <p>'
@@ -336,13 +328,13 @@
                 });
             }
             function about() {
-          
+
                 $('<div></div>').appendTo('body')
 .html('<div><h6>' + ' '
-      + '<br/>   <p><b>The Listening Hand</b> was founded by Georgina Petrou in 2000 to promote Health' 
+      + '<br/>   <p><b>The Listening Hand</b> was founded by Georgina Petrou in 2000 to promote Health'
         + ' and Positivity</br> in the individual and the workplace.'
-        + ' <p>Offering ‘On-Site’ (Seated Acupressure) massage to corporations</br> at competitive rates, we focus' 
-        +  ' on the individual needs of each company and every client within.</p></br>'
+        + ' <p>Offering ‘On-Site’ (Seated Acupressure) massage to corporations</br> at competitive rates, we focus'
+        + ' on the individual needs of each company and every client within.</p></br>'
         + '<p>The Listening Hand is far more than an ‘agency’ for On-site massage therapists. Our service is</br>'
         + 'tailor made to your working environment and ethos, with a qualified therapist dedicated to your site.</p>'
         + '<p>This ensures you and your employees receive the highest standard of personal attention and </br>'
@@ -362,7 +354,7 @@
 
                             $(this).dialog("close");
                         }*@
-                        },
+                    },
                     close: function (event, ui) {
 
                         $(this).remove();
@@ -370,7 +362,7 @@
                 });
             }
             function therapeutic() {
-          
+
                 $('<div></div>').appendTo('body')
 .html('<div><h6>' + ' '
       + '<div align="left" class="mainer"><span class="maintitle">What is Therapeutic Massage?</span><br />                            '
@@ -402,29 +394,29 @@
   + '    </div>  '
          + '</h6></div>')
                 .dialog({
-                          modal: true, title: 'The Listening Hand Pricing ', zIndex: 10000, autoOpen: true,
-                          width: 'auto', resizable: false,
-                          buttons: {
-                          Cancel: function () {
+                    modal: true, title: 'The Listening Hand Pricing ', zIndex: 10000, autoOpen: true,
+                    width: 'auto', resizable: false,
+                    buttons: {
+                        Cancel: function () {
                             $(this).dialog("close");
-                      },
+                        },
                         @*Go: function () {
                             var Name = $('#postage').find(":selected").text();
                             window.location.href = '@Url.Action("Hairdresser", "Home")' + '?stylist=' + Name;
 
                             $(this).dialog("close");
                       }*@
-                        },
-                  close: function (event, ui) {
+                    },
+                    close: function (event, ui) {
 
-                      $(this).remove();
-                  }
-                  });
-                  }
+                        $(this).remove();
+                    }
+                });
+            }
 
 
             function recruitment() {
-          
+
                 $('<div></div>').appendTo('body')
 .html('<div><h6>' + ' '
       + '<br/>   <p><b>Recruitment</b> <p>'
@@ -445,7 +437,7 @@
 
                             $(this).dialog("close");
                         }*@
-                        },
+                    },
                     close: function (event, ui) {
 
                         $(this).remove();
@@ -454,9 +446,9 @@
             }
 
             function Contact() {
-                                                                                                                                                                                                   
-                $('<div></div>').appendTo('body')                                                                                                                                                  
-.html('<div><h6>'                                                                                                                                                                             
+
+                $('<div></div>').appendTo('body')
+.html('<div><h6>'
      + ' <table width="590" height="340" border="0" cellpadding="0" cellspacing="8">                                                                                                               '
      + ' <tr>                                                                                                                                                                                      '
      + '   <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">                                                                                                        '
@@ -481,7 +473,7 @@
      + '     <tr>                                                                                                                                                                                  '
      + '       <td><br /></td>                                                                                                                                                                     '
      + '     </tr>                                                                                                                                                                                 '
-     + '   </table>                                                                                                                                                                                '                                                                                                                                                                                    
+     + '   </table>                                                                                                                                                                                '
          + '</h6></div>')
                 .dialog({
                     modal: true, title: 'The Listening Hand Pricing ', zIndex: 10000, autoOpen: true,
@@ -496,7 +488,7 @@
 
                             $(this).dialog("close");
                         }*@
-                        },
+                    },
                     close: function (event, ui) {
 
                         $(this).remove();
@@ -512,5 +504,3 @@
     }
 </body>
 </html>
-
-
