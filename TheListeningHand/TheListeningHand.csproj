@@ -256,6 +256,15 @@
     <Compile Include="Models\spGetAvailabilty_Result4.cs">
       <DependentUpon>Hand9.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\spGetUserDetails_Result.cs">
+      <DependentUpon>Hand9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spGetUserDetails_Result1.cs">
+      <DependentUpon>Hand9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spGetUserDetails_Result2.cs">
+      <DependentUpon>Hand9.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\spUpdateAvailabilty_Result.cs">
       <DependentUpon>Hand9.tt</DependentUpon>
     </Compile>

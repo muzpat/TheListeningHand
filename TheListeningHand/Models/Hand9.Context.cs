@@ -40,7 +40,7 @@ namespace TheListeningHand.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAvailabilty_Result4>("spGetAvailabilty", stylistParameter);
         }
     
-        public virtual ObjectResult<spUpdateAvailabilty_Result1> spUpdateAvailabilty(Nullable<short> stylist, string hrs)
+        public virtual int spUpdateAvailabilty(Nullable<short> stylist, string hrs, Nullable<int> dayid)
         {
             var stylistParameter = stylist.HasValue ?
                 new ObjectParameter("stylist", stylist) :
@@ -50,7 +50,20 @@ namespace TheListeningHand.Models
                 new ObjectParameter("hrs", hrs) :
                 new ObjectParameter("hrs", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spUpdateAvailabilty_Result1>("spUpdateAvailabilty", stylistParameter, hrsParameter);
+            var dayidParameter = dayid.HasValue ?
+                new ObjectParameter("dayid", dayid) :
+                new ObjectParameter("dayid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spUpdateAvailabilty", stylistParameter, hrsParameter, dayidParameter);
+        }
+    
+        public virtual ObjectResult<spGetUserDetails_Result2> spGetUserDetails(Nullable<int> stylist)
+        {
+            var stylistParameter = stylist.HasValue ?
+                new ObjectParameter("stylist", stylist) :
+                new ObjectParameter("stylist", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetUserDetails_Result2>("spGetUserDetails", stylistParameter);
         }
     }
 }

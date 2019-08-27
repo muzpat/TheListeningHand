@@ -8,6 +8,7 @@
     @*@Html.ActionLink("Home", "Index", "Home")*@
     <table class="table table_condensed" id="Grid"></table>
 </div>
+
 @section Scripts {
     <script type="text/javascript">
 
@@ -17,7 +18,7 @@
             var mydata = { stylist: myParam };
 
             $.ajax({
-                url: '@Url.Action("GetAppointments", "Home")',
+                url: '@Url.Action("GetAppointmentPage", "Home")',
                 type: "GET",
                 cache: false,
                 contentType: "application/json; charset=utf-8",
@@ -26,42 +27,83 @@
                 cache: false,
                 async: true,
                 success: function (response) {
+                   
                     var data = response;
-                //    $('#Grid').append('<table><tr><th>Date</th><th>Time</th><th>Stylist</th><th>Customer</th><th>Phone</th><th>Style</th><th>Info</th></tr>');
-
+                    //    $('#Grid').append('<table><tr><th>Date</th><th>Time</th><th>Stylist</th><th>Customer</th><th>Phone</th><th>Style</th><th>Info</th></tr>');
+                    var today = '';
                     var row = '';
+                    var laststarttime = 0;
+                    var yesterday = ''
                     row = '<div  id="rw1" class="row">  ';
                     for (var i = 0; i < data.length; ++i) {
-                        if (i == 0) {
-
-                            row = row + '    <div id="col1" class="col">         <div class="card"   id="card2" style="width: 18rem;">            <div  id="ch2" class="card-header">';
-                            row = row + '<b>' + data[i].datedetail + '</b></br>' + data[i].date;
-                            row = row + '</div> <ul class="list-group list-group-flush"> ';
-
-                        }
-                        var situation = data[i].time + ' ' + data[i].customer;
-                        if (situation.length > 6) {
-                            situation = "Not Available";
-                        }
-
-                        row = row + ' <li     class="list-group-item"><a  id="a' + data[i].date.replace('/', '').replace('/', '') + data[i].time.replace(':', '') + '" data-date="' + data[i].date + '"  data-time="' + data[i].time + '" href="#" class="mylink" style= "color:blue">' + situation + '</a></li>';
-
-                            if (data[i].time == "17:00") {
-                                row = row + '</ul>   </div>  </div>'
+                        if (i == 0)
+                        {
+                         
+                            if (data[i].dayoftheweek == 1) {
+                                today = "Sunday";
+                            } else if (data[i].dayoftheweek == 2) {
+                                today = "Monday";
+                            } else if (data[i].dayoftheweek == 3) {
+                                today = "Tuesday";
+                            } else if (data[i].dayoftheweek == 4) {
+                                today = "Wednesday";
+                            } else if (data[i].dayoftheweek == 5) {
+                                today = "Thursday";
+                            } else if (data[i].dayoftheweek == 6) {
+                                today = "Friday";
+                            } else if (data[i].dayoftheweek == 7) {
+                                today = "Saturday";
+                            } else {
+                                today = "n/a";
                             }
-
-                            //    $('#Grid').append(row);
-                            //   row = '';
-
-                     //   row = row + '</div> '
-                         //   $('#Grid').append(row);
-                          //  row = '';
-                   }
-                    row = row + '</div> '
+                            yesterday = data[i].theday;
+                            row = row + '<div>';   /// extra div
+                            //column
+                            row = row + '    <div id="col1" class="col">         <div class="card"   id="card2" style="width: 9rem;">            <div  id="ch2" class="card-header">';                      
+                            row = row + '<b>Today </b></br>' + dateformat(data[i].theday);
+                            row = row + '</div> <ul class="list-group list-group-flush"> ';
+                            yesterday = data[i].theday;
+                        }
+                        if (data[i].theday != yesterday) {
+                            if (data[i].dayoftheweek == 1) {
+                                today = "Sunday";
+                            } else if (data[i].dayoftheweek == 2) {
+                                today = "Monday";
+                            } else if (data[i].dayoftheweek == 3) {
+                                today = "Tuesday";
+                            } else if (data[i].dayoftheweek == 4) {
+                                today = "Wednesday";
+                            } else if (data[i].dayoftheweek == 5) {
+                                today = "Thursday";
+                            } else if (data[i].dayoftheweek == 6) {
+                                today = "Friday";
+                            } else if (data[i].dayoftheweek == 7) {
+                                today = "Saturday";
+                            } else {
+                                today = "n/a";
+                            }
+                            row = row + '</ul>  </div></div>';
+                            row = row + '</div><div>';   /// extra div
+                            //column
+                            row = row + '    <div id="col1" class="col">         <div class="card"   id="card2" style="width: 9rem;">            <div  id="ch2" class="card-header">';
+                            row = row + '<b>' + today + ' </b></br>' +  dateformat(data[i].theday);
+                            row = row + '</div> <ul class="list-group list-group-flush"> ';
+                            yesterday = data[i].theday;
+                        }
+                        var situation = data[i].time + ':00 ';  // + data[i].customer;
+                        if (situation.length > 6) {
+                            //  situation = "Not Available";
+                        }
+                        row = row + ' <li     class="list-group-item"><a  id="a' + data[i].theday.replace('/', '').replace('/', '') + data[i].time.replace(':', '') + '" data-date="' + data[i].theday + '"  data-time="' + data[i].time + '" href="#" class="mylink" style= "color:blue">' + situation + '</a></li>';
+                        laststarttime = data[i].time;
+                    }
+                    row = row + '</div> </div></div>'
+                    row = row + '<div>';   /// extra div
                     $('#Grid').append(row);
 
                     for (var i = 0; i < data.length; ++i) {
-                        var myId = 'a' + data[i].date.replace('/', '').replace('/', '') + data[i].time.replace(':','');
+
+                        var myId = 'a' + data[i].theday.replace('/', '').replace('/', '') + data[i].time.replace(':', '');
                         $('#' + myId).attr('onClick', 'linkaction(this);');
 
                     }
@@ -71,14 +113,20 @@
 
         });
 
-
+        function dateformat(roughdate) {
+    
+            var yr = roughdate.substring(0, 4);
+            var mnth = roughdate.substring(4,6 );
+            var days = roughdate.substring(6, 8);
+            return days + "/" + mnth + "/" + yr;
+        }
         function OnSuccess(response) {
-            debugger;
+
             var data = $.parseJSON(response);
 
             //   alert(data.BeeHive[0].beeType);
             $('#Grid').append('<table><tr><th>Date</th><th>Time</th><th>Stylist</th><th>Customer</th><th>Phone</th><th>Style</th><th>Info</th></tr>');
-            debugger;
+
             for (var i = 0; i < data.length; ++i) {
                 //                 $('#Grid').append('<div class="name">' + ToJavaScriptDate(data[i].review_date) + ' ' + data[i].review_stage
                 //                     + ' ' + data[i].ops_product_id + ' ' + data[i].ProducT_sub_group_code
@@ -104,7 +152,7 @@
             debugger;
             alert('here!');
         });
-        function book(name, Phone, Style, Info,  e) {
+        function book(name, Phone, Style, Info, e) {
             var myId = e.id;
 
             var aDate;
@@ -112,21 +160,21 @@
 
             for (var i = 0; i < e.attributes.length; ++i) {
 
-                if ( e.attributes[i].name == 'data-date') {
+                if (e.attributes[i].name == 'data-date') {
                     aDate = e.attributes[i].value;
                 }
-                if ( e.attributes[i].name == 'data-time') {
+                if (e.attributes[i].name == 'data-time') {
                     aTime = e.attributes[i].value;
                 }
 
             }
 
 
-            var Xexisting =  $('#' + myId )
-            var existing =  $('#' + myId ).text();
-            var myData = {name: name, phone: Phone, style: Style, info: Info, stylist:  '@ViewBag.Stylist', date: aDate   , time: aTime}
+            var Xexisting = $('#' + myId)
+            var existing = $('#' + myId).text();
+            var myData = { name: name, phone: Phone, style: Style, info: Info, stylist: '@ViewBag.Stylist', date: aDate, time: aTime }
             existing = existing + ' ' + name;
-            $('#' + myId ).html( existing);
+            $('#' + myId).html(existing);
 
             $.ajax({
                 url: '@Url.Action("AddAppointment", "Home")',
@@ -139,7 +187,7 @@
             })
 
 
-          //  debugger;
+            //  debugger;
         }
 
         function OnSuccess(response) {
@@ -150,12 +198,12 @@
             console.log("error - Ajax call has failed: <br />Err: " + errorThrown + "<br />textStatus: " + textStatus + "<br />ResponseText: " + jqXHR.responseText);
         }
         function linkaction(e) {
-        //   if (typeof jQuery.ui != 'undefined') {
-        //       alert('no UI!!');
-        //   }
-        //   else{
-        //       alert('jQuery.ui loaded');
-        //   }
+            //   if (typeof jQuery.ui != 'undefined') {
+            //       alert('no UI!!');
+            //   }
+            //   else{
+            //       alert('jQuery.ui loaded');
+            //   }
             var ch = e.text.length;
             if (ch > 8) {
                 $('<div></div>').appendTo('body')
@@ -199,7 +247,7 @@
                                 var Phone = $('#inphone').val();
                                 var Style = $('#instyle').val();
                                 var Info = $('#ininfo').val();
-                             //   var Name = $('#inname').val();
+                                //   var Name = $('#inname').val();
                                 book(Name, Phone, Style, Info, e);
                                 $(this).dialog("close");
                             }

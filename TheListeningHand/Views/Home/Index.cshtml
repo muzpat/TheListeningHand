@@ -24,13 +24,13 @@
 
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
         <nav class="my-2 my-md-0 mr-md-3">
-                <a class="p-2 text-dark" onclick="linkaction(this)" href="#">Make a Booking</a>
-                <a class="p-2 text-dark" onclick="whoamI(this)" href="#">Stylist's Page</a>
+            <a class="p-2 text-dark" onclick="linkaction(this)" style="font-size:larger" href="#">Make a Booking</a>
+            <a class="p-2 text-dark" onclick="whoamI(this)" href="#">Stylist's Page</a>
 
-                <a class="p-2 text-dark" href="/Home/Management">Management Admin</a>
-                <a class="p-2 text-dark" href="/Home/Blog">Blog</a>
-            <a class="p-2 text-dark" href="/Home/Users">Users</a>
-            </nav>
+            <a class="p-2 text-dark" href="/Home/Management">Management Admin</a>
+            <a class="p-2 text-dark" href="/Home/Blog">Blog</a>
+            <a class="p-2 text-dark" onclick="whichuser(this)" href="#">Users</a>
+        </nav>
 
     </div>
 
@@ -159,9 +159,10 @@
             function unescapeHTML(escapedHTML) {
                 return escapedHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"');
             }
+
             function linkaction(e) {
                 var myLine = '<div><h6>Stylist: <br/>   <p> </p>' + unescapeHTML('@ViewBag.dropdowntext') + '</h6></div>';
-             
+
                 $('<div></div>').appendTo('body')
                 .html(myLine)
                                 .dialog({
@@ -173,10 +174,54 @@
                                         },
                                         Book: function () {
                                             var Name = $('#postage').find(":selected").text();
+
+                                            if (Name === null) {
+                                                Name = "Tina Sparkle";
+                                            }
                                             if (Name == "Anyone Available") {
                                                 window.location.href = '@Url.Action("Anyone", "Home")' + '?stylist=' + Name;
                                             } else {
                                                 window.location.href = '@Url.Action("GoToAppointment", "Home")' + '?stylist=' + Name;
+                                            }
+
+                                            @*$.ajax({
+                                                url: '@Url.Action("GoToAppointment", "Home")',
+                                                type: 'GET',
+                                                dataType: 'html',
+                                                contentType: 'application/json; charset=utf-8',
+                                                data: { stylist: Name }
+                                            })*@
+                                            $(this).dialog("close");
+                                        }
+                                    },
+                                    close: function (event, ui) {
+
+                                        $(this).remove();
+                                    }
+                                });
+            }
+            function whichuser(e) {
+                var myLine = '<div><h6>Stylist: <br/>   <p> </p>' + unescapeHTML('@ViewBag.userdropdown') + '</h6></div>';
+
+                $('<div></div>').appendTo('body')
+                .html(myLine)
+                                .dialog({
+                                    modal: true, title: 'Choose a Stylist ', zIndex: 10000, autoOpen: true,
+                                    width: 'auto', resizable: false,
+                                    buttons: {
+                                        Cancel: function () {
+                                            $(this).dialog("close");
+                                        },
+                                        Select: function () {
+                                            var Name = $('#postage').find(":selected").text();
+
+                                            if (Name === null) {
+                                                Name = "Tina Sparkle";
+                                            }
+                                            if (Name == "New User") {
+                                                createuser(e);
+                                            } else {
+                                                window.location.href = '@Url.Action("Users", "Home")' + '?stylist=' + Name;
                                             }
 
                                             @*$.ajax({
@@ -195,6 +240,61 @@
                                     }
                                 });
             }
+
+            function createuser(e) {
+                var myLine = '<div><h6>New User: <br/>   <label>Name:</label><input id="uname"></input> <br/> <label>Email:</label><input id="umail"></input></h6></div>';
+
+                $('<div></div>').appendTo('body')
+                .html(myLine)
+                                .dialog({
+                                    modal: true, title: 'Choose a Stylist ', zIndex: 10000, autoOpen: true,
+                                    width: 'auto', resizable: false,
+                                    buttons: {
+                                        Cancel: function () {
+                                            $(this).dialog("close");
+                                        },
+                                        Create: function () {
+                                       
+                                                var Name = $('#uname').val();
+                                                var Email = $('#umail').val();
+                                                createuserajax(Name + '/' + Email);
+         
+
+                                            @*$.ajax({
+                                                url: '@Url.Action("GoToAppointment", "Home")',
+                                                type: 'GET',
+                                                dataType: 'html',
+                                                contentType: 'application/json; charset=utf-8',
+                                                data: { stylist: Name }
+                                            })*@
+                                            $(this).dialog("close");
+                                        }
+                                    },
+                                    close: function (event, ui) {
+
+                                        $(this).remove();
+                                    }
+                                });
+            }
+            function createuserajax(param) {
+                var str = param.split("/");
+            
+                $.ajax({
+                    url: "@Url.Action("AddUsers", "Home")",
+                    type: "GET",
+                dataType: 'json',
+                data: { stylistname: str[0], email: str[1] },
+                cache: false,
+                async: true,
+                success: function (data) {
+                    window.location.href = '@Url.Action("Users", "Home")' + '?stylist=' + str[0];
+                },
+                error: function (xhr) {
+                    debugger;
+                    alert('Request Status ' + xhr.status + ' Status Text (a) ' + xhr.statusText + ' ' + xhr.responseText);
+                }
+            })
+            };
 
             function btMassage(e) {
                 $('<div></div>').appendTo('body')

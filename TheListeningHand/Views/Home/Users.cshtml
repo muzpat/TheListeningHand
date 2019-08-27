@@ -2,12 +2,19 @@
 @{
     ViewBag.Title = "Users";
 }
-
-<h2>Users</h2>
+<style type="text/css">
+    table {
+        table-layout: fixed;
+        min-width: 200px;
+    }
+</style>
+<h2>Availability&nbsp;  @ViewBag.username  </h2>
 
 <div id="Grid"></div>
 <div id="Grid2"></div>
 <div id="Grid3"></div>
+
+
 
 @section Scripts {
     <script type="text/javascript">
@@ -22,7 +29,6 @@
                 cache: false,
                 async: true,
                 success: function (data) {
-
                     //  var json_parsed = $.parseJSON(data);
                     var json_parsed = data;
                     var row = '<table>';
@@ -33,34 +39,117 @@
 
                     var items = json_parsed;
                     var backcolor = 'E5E8E8';
-                    $('#Grid').append('<table><thead>     <tr>       ');
+                    $('#Grid').append('<table style="white-space: nowrap;"><thead>     <tr>       ');
                     // headings
-                    $('#Grid').append(' <th>&nbsp&nbsp' + 'id' + '&nbsp&nbsp</th><th>&nbsp&nbsp' + 'name' + '&nbsp&nbsp</th>');
+                    $('#Grid').append(' <th>&nbsp&nbsp' + 'id' + '&nbsp;&nbsp;</th><th>&nbsp;&nbsp;&nbsp;&nbsp;' + 'name' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>');
                     $('#Grid').append('</tr> </thead>');
 
+                    var start = 0;
+                    var lasthour = 0;
+                    var lastday = 0;
+                    var today;
                     // data
                     for (var i = 0; i < items.length; i++) {
-                        row = row + '<tr> ';
-                        row = row + '<td bgcolor=' + backcolor + '>&nbsp&nbsp' + items[i].id + '&nbsp&nbsp</td>';
-                        row = row + '<td bgcolor=' + backcolor + '>&nbsp&nbsp' + items[i].name + '&nbsp&nbsp</td>';
-                        var j = 0;
-
-                        for (j = 0; j < 24; j++) {
-                            row = row + '<td><input type="checkbox" name="hours' + items[i].id + '" id=' + j.toString() + ':00"' + ' value="' + j.toString() + ':00"' + '>' + j.toString() + ":00" + '</input></td>';
+                        if (i == 0) {
+                            if (items[i].dayId == 1) {
+                                today = "Sunday";
+                            } else if (items[i].dayId == 2) {
+                                today = "Monday";
+                            } else if (items[i].dayId == 3) {
+                                today = "Tuesday";
+                            } else if (items[i].dayId == 4) {
+                                today = "Wednesday";
+                            } else if (items[i].dayId == 5) {
+                                today = "Thursday";
+                            } else if (items[i].dayId == 6) {
+                                today = "Friday";
+                            } else if (items[i].dayId == 7) {
+                                today = "Saturday";
+                            } else {
+                                today = "n/a";
+                            }
                         }
-            
-                        row = row + '<td><button type ="button" id="update' + items[i].id + '" class="btn btn-primary"  >Update</button></td>';
-                        $('#Grid').append(row);
-                        var chk1 = $('#update' + items[i].id);
-            
-                        $('#update' + items[i].id).attr('onClick', 'updateuser(this);')
-                        row = '';
+                        //debugger;
+                        if (lastday != items[i].dayId) {
+                       
+                            lastday = items[i].dayId;
+                            if (i != 0) {
+        
+                                //  if (lastday != items[i].dayId) {
+                                // lasthour = lasthour + 2;
+                                for (j = lasthour; j < 24; j++) {
+                                    row = row + '<td><input type="checkbox" name="' + today + '" id=' + j.toString() + ':00"' + ' value="' + j.toString() + ':00"' + '>' + j.toString() + ":00" + '</input></td>';
+                                    lasthour = j;
+                                }
+                                // shouldn't refer to item[i] as that was the previous row!
+                                row = row + '<td><button type ="button" name="' + today + '" id="update' + today + '" class="btn btn-primary"  >Update</button></td>';
+                                $('#Grid').append(row);
+                                var chk1 = $('#update' + today);
+                           
+                                $('#update' + today).attr('onClick', 'updateuser(this);')
+                                row = '';
+                                lasthour = 0;
+                                if (items[i].dayId == 1) {
+                                    today = "Sunday";
+                                } else if (items[i].dayId == 2) {
+                                    today = "Monday";
+                                } else if (items[i].dayId == 3) {
+                                    today = "Tuesday";
+                                } else if (items[i].dayId == 4) {
+                                    today = "Wednesday";
+                                } else if (items[i].dayId == 5) {
+                                    today = "Thursday";
+                                } else if (items[i].dayId == 6) {
+                                    today = "Friday";
+                                } else if (items[i].dayId == 7) {
+                                    today = "Saturday";
+                                } else {
+                                    today = "n/a";
+                                }
+                                //   }
+                            }
+
+
+                            row = row + '<tr> ';
+                            //     row = row + '<td bgcolor=' + backcolor + '>&nbsp&nbsp' + items[i].id + '&nbsp&nbsp</td>';
+                          //  row = row + '<td bgcolor=' + backcolor + '>' + items[i].name + '</td>';
+                            row = row + '<td bgcolor=' + backcolor + '>' + today + '</td>';
+                            lastday = items[i].dayId;
+                        }
+
+                        var j = lasthour;
+                        start = items[i].starttime;
+                        if (start == 99) {
+
+                        } else {
+                            for (j = lasthour; j < items[i].starttime; j++) {
+                                row = row + '<td><input type="checkbox" name="' + today + '" id=' + j.toString() + ':00"' + ' value="' + j.toString() + ':00"' + '>' + j.toString() + ":00" + '</input></td>';
+                                lasthour = j + 1;
+                            }
+                            row = row + '<td><input type="checkbox" name="' + today + '" id=' + items[i].starttime + ':00"' + ' value="' + items[i].starttime + ':00"' + ' checked="checked">' + items[i].starttime + ":00" + '</input></td>';
+                            lasthour = lasthour + 1;
+                        } 
+
                     }
-                  
-                    row = row + '</tr></table>'
-          
+                    // input data all read
+                    // complete last row
+             
+                 if (start != 99) {
+                     for (j = lasthour; j < 24; j++) {
+                         row = row + '<td><input type="checkbox" name="' + today + '" id=' + j.toString() + ':00"' + ' value="' + j.toString() + ':00"' + '>' + j.toString() + ":00" + '</input></td>';
+                         lasthour = j;
+                     }
+                     // shouldn't refer to item[i] as that was the previous row!
+                     row = row + '<td><button type ="button" name="' + today + '" id="update' + today + '" class="btn btn-primary"  >Update</button></td>';
+                     $('#Grid').append(row);
+                 }
+                    var chk1 = $('#update' + today);
+                    $('#update' + today).attr('onClick', 'updateuser(this);')
+                    // end of last row
+                    row =  '</tr></table>'
+
                     $('#Grid').append(row);
-       
+
                     $('#Grid').append('');
                 },
                 error: function (xhr) {
@@ -71,31 +160,33 @@
         };
         function updateuser(e) {
             var id = e.id.replace('update', '');
-            var parm = 'hours' + id.toString();
+            var day = e.name;
+            //  var parm = 'hours' + id.toString();
+            var parm = e.name;
             var availability = { hrs: [], };
             var sbox = document.getElementsByName(parm);
             for (var i = 0; i < sbox.length; i++) {
                 availability.hrs.push(sbox[i].checked);
             }
             console.log(availability.hrs);
-            debugger;
+
             var parm2 = JSON.stringify(availability);
             $.ajax({
                 url: "@Url.Action("UpdateUser", "Home")",
                 type: "GET",
                 dataType: 'json',
-                data: { stylist: 1, arrayhrs: parm2  },
+                data: { stylist: 1, arrayhrs: parm2, day: day },
                 cache: false,
                 async: true,
                 success: function (data) {
-                    debugger;
+                 //   debugger;
                 },
                 error: function (xhr) {
                     debugger;
                     alert('Request Status ' + xhr.status + ' Status Text (a) ' + xhr.statusText + ' ' + xhr.responseText);
                 }
             })
-            }
+        }
 
     </script>
 }

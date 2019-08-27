@@ -27,58 +27,96 @@
                 success: function (response) {
 
                     var data = response;
+                    //    $('#Grid').append('<table><tr><th>Date</th><th>Time</th><th>Stylist</th><th>Customer</th><th>Phone</th><th>Style</th><th>Info</th></tr>');
+                    var today = '';
                     var row = '';
+                    var laststarttime = 0;
+                    var yesterday = ''
                     row = '<div  id="rw1" class="row">  ';
                     for (var i = 0; i < data.length; ++i) {
+                        if (i == 0) {
 
-                        if (data[i].time == "09:00") {
-
-                            row = row + '    <div id="col1" class="col">         <div class="card"   id="card2" style="width: 18rem;">            <div  id="ch2" class="card-header">';
-                            row = row + '<b>' + data[i].datedetail + '</b></br>' + data[i].date;
+                            if (data[i].dayoftheweek == 1) {
+                                today = "Sunday";
+                            } else if (data[i].dayoftheweek == 2) {
+                                today = "Monday";
+                            } else if (data[i].dayoftheweek == 3) {
+                                today = "Tuesday";
+                            } else if (data[i].dayoftheweek == 4) {
+                                today = "Wednesday";
+                            } else if (data[i].dayoftheweek == 5) {
+                                today = "Thursday";
+                            } else if (data[i].dayoftheweek == 6) {
+                                today = "Friday";
+                            } else if (data[i].dayoftheweek == 7) {
+                                today = "Saturday";
+                            } else {
+                                today = "n/a";
+                            }
+                            yesterday = data[i].theday;
+                            row = row + '<div>';   /// extra div
+                            //column
+                            row = row + '    <div id="col1" class="col">         <div class="card"   id="card2" style="width: 9rem;">            <div  id="ch2" class="card-header">';
+                            row = row + '<b>Today </b></br>' + dateformat(data[i].theday);
                             row = row + '</div> <ul class="list-group list-group-flush"> ';
+                            yesterday = data[i].theday;
                         }
-         //               if (data[i].phone !='a') {
-         //                   row = row + ' <li     class="list-group-item"><a  id="a' + data[i].date.replace('/', '').replace('/', '')
-         //+ data[i].time + '" data-date="' + data[i].date + '"  data-time="' + data[i].time
-         //+ '" title="' + data[i].phone + ' ' + data[i].style + ' ' + data[i].info + ' '
-         //+ '" href="#" class="mylink" style= "color:blue">' + data[i].time + ' '
-         //+ '</a></li>';
-                        //               } else {
-
-                            row = row + ' <li     class="list-group-item"><a  id="a' + data[i].date.replace('/', '').replace('/', '')
-         + data[i].time.replace(':', '') + '" data-date="' + data[i].date + '"  data-time="' + data[i].time
-         + '"  data-customer="' + data[i].customer
-         + '"  data-style="' + data[i].style
-         + '"  data-info="' + data[i].info
-         + '"  data-phone="' + data[i].phone
-         + '" title="Phone: ' + data[i].phone + ' \nStyle: ' + data[i].style + ' \nNotes: ' + data[i].info + ' '
-         + '" href="#" class="mylink" style= "color:blue">' + data[i].time + ' ' + data[i].customer
-      //   + ' </br> ' + data[i].phone + ' </br> ' + data[i].style + ' </br> ' + data[i].info + ' '
-         + '</a></li>';
-                      //  }
-
-                        if (data[i].time == "17:00") {
-                            row = row + '</ul>   </div>  </div>'
+                        if (data[i].theday != yesterday) {
+                            if (data[i].dayoftheweek == 1) {
+                                today = "Sunday";
+                            } else if (data[i].dayoftheweek == 2) {
+                                today = "Monday";
+                            } else if (data[i].dayoftheweek == 3) {
+                                today = "Tuesday";
+                            } else if (data[i].dayoftheweek == 4) {
+                                today = "Wednesday";
+                            } else if (data[i].dayoftheweek == 5) {
+                                today = "Thursday";
+                            } else if (data[i].dayoftheweek == 6) {
+                                today = "Friday";
+                            } else if (data[i].dayoftheweek == 7) {
+                                today = "Saturday";
+                            } else {
+                                today = "n/a";
+                            }
+                            row = row + '</ul>  </div></div>';
+                            row = row + '</div><div>';   /// extra div
+                            //column
+                            row = row + '    <div id="col1" class="col">         <div class="card"   id="card2" style="width: 9rem;">            <div  id="ch2" class="card-header">';
+                            row = row + '<b>' + today + ' </b></br>' + dateformat(data[i].theday);
+                            row = row + '</div> <ul class="list-group list-group-flush"> ';
+                            yesterday = data[i].theday;
                         }
+                        var situation = data[i].starttime + ':00 ' + data[i].name;
+                        if (situation.length > 6) {
+                            //  situation = "Not Available";
+                        }
+                        row = row + ' <li     class="list-group-item"><a  id="a' + data[i].theday.replace('/', '').replace('/', '') + data[i].apptime.replace(':', '') + '" data-date="' + data[i].theday + '" data-phone="' + data[i].phone + '" data-info="' + data[i].info + '"  data-style="' + data[i].style + '"  data-customer="' + data[i].name + '"  data-time="' + data[i].apptime + '" href="#" class="mylink" style= "color:blue">' + situation + '</a></li>';
+                        laststarttime = data[i].apptime;
                     }
-                    row = row + '</div> '
+                    row = row + '</div> </div></div>'
+                    row = row + '<div>';   /// extra div
                     $('#Grid').append(row);
 
                     for (var i = 0; i < data.length; ++i) {
 
-                        var myId = 'a' + data[i].date.replace('/', '').replace('/', '') + data[i].time.replace(':', '');
-                        var myChecker = $('#' + myId);
+                        var myId = 'a' + data[i].theday.replace('/', '').replace('/', '') + data[i].apptime.replace(':', '');
                         $('#' + myId).attr('onClick', 'linkaction(this);');
 
                     }
-
-
                 },
                 error: OnErrorCall
             })
 
         });
 
+        function dateformat(roughdate) {
+
+            var yr = roughdate.substring(0, 4);
+            var mnth = roughdate.substring(4, 6);
+            var days = roughdate.substring(6, 8);
+            return days + "/" + mnth + "/" + yr;
+        }
 
         function OnSuccess(response) {
             debugger;

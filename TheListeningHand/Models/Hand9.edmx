@@ -33,9 +33,13 @@
         <Function Name="spGetAvailabilty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="thelisteninghand">
           <Parameter Name="stylist" Type="smallint" Mode="In" />
         </Function>
+        <Function Name="spGetUserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="thelisteninghand">
+          <Parameter Name="stylist" Type="int" Mode="In" />
+        </Function>
         <Function Name="spUpdateAvailabilty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="thelisteninghand">
           <Parameter Name="stylist" Type="smallint" Mode="In" />
           <Parameter Name="hrs" Type="varchar" Mode="In" />
+          <Parameter Name="dayid" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="TheListeningHandModelStoreContainer">
           <EntitySet Name="availability" EntityType="Self.availability" Schema="thelisteninghand" store:Type="Tables" />
@@ -51,12 +55,16 @@
           <FunctionImport Name="spGetAvailabilty" ReturnType="Collection(TheListeningHandModel.spGetAvailabilty_Result4)">
           <Parameter Name="stylist" Mode="In" Type="Int16" />
           </FunctionImport>
-          <FunctionImport Name="spUpdateAvailabilty" ReturnType="Collection(TheListeningHandModel.spUpdateAvailabilty_Result1)">
-            <Parameter Name="stylist" Mode="In" Type="Int16" />
-            <Parameter Name="hrs" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="stylists" EntityType="TheListeningHandModel.stylist" />
           <EntitySet Name="availabilities" EntityType="TheListeningHandModel.availability" />
+          <FunctionImport Name="spUpdateAvailabilty">
+            <Parameter Name="stylist" Mode="In" Type="Int16" />
+            <Parameter Name="hrs" Mode="In" Type="String" />
+            <Parameter Name="dayid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetUserDetails" ReturnType="Collection(TheListeningHandModel.spGetUserDetails_Result2)">
+            <Parameter Name="stylist" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="day">
           <Key>
@@ -90,6 +98,9 @@
           <Property Name="starttime" Type="Int32" />
           <Property Name="time" Type="Int32" />
         </EntityType>
+        <ComplexType Name="spGetUserDetails_Result" />
+        <ComplexType Name="spGetUserDetails_Result1" />
+        <ComplexType Name="spGetUserDetails_Result2" />
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -107,11 +118,6 @@
           <FunctionImportMapping FunctionImportName="spGetAvailabilty" FunctionName="TheListeningHandModel.Store.spGetAvailabilty">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TheListeningHandModel.spGetAvailabilty_Result4" />
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spUpdateAvailabilty" FunctionName="TheListeningHandModel.Store.spUpdateAvailabilty">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TheListeningHandModel.spUpdateAvailabilty_Result1" />
             </ResultMapping>
           </FunctionImportMapping>
           <EntitySetMapping Name="stylists">
@@ -134,6 +140,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spUpdateAvailabilty" FunctionName="TheListeningHandModel.Store.spUpdateAvailabilty" />
+          <FunctionImportMapping FunctionImportName="spGetUserDetails" FunctionName="TheListeningHandModel.Store.spGetUserDetails">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="TheListeningHandModel.spGetUserDetails_Result2" />
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

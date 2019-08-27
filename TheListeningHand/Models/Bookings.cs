@@ -14,7 +14,7 @@ namespace TheListeningHand.Models
         public string stylist { get; set; }
         public string date { get; set; }
         public string time { get; set; }
-
+        public string starttime { get; set; }
     }
     public class Bookings
     {
@@ -38,6 +38,7 @@ namespace TheListeningHand.Models
                 addBooking.stylist = "Tina Sparkle";
                 addBooking.date = DateTime.Today.ToShortDateString();
                 addBooking.time = "09:00";
+                addBooking.starttime = "09:00";
                 currentBookings.Add(addBooking);
                 addBooking = new Booking();
                 addBooking.name = "Sam";
@@ -47,6 +48,7 @@ namespace TheListeningHand.Models
                 addBooking.stylist = "Tina Sparkle";
                 addBooking.date = DateTime.Today.ToShortDateString();
                 addBooking.time = "10:00";
+                addBooking.starttime = "10:00";
                 currentBookings.Add(addBooking);
                 addBooking = new Booking();
                 addBooking.name = "Amanda";
@@ -56,6 +58,7 @@ namespace TheListeningHand.Models
                 addBooking.stylist = "Tina Sparkle";
                 addBooking.date = DateTime.Today.ToShortDateString();
                 addBooking.time = "12:00";
+                addBooking.starttime = "12:00";
                 currentBookings.Add(addBooking);
                 addBooking = new Booking();
                 addBooking.name = "Jackie's Mum";
@@ -65,6 +68,7 @@ namespace TheListeningHand.Models
                 addBooking.stylist = "Tina Sparkle";
                 addBooking.date = DateTime.Today.ToShortDateString();
                 addBooking.time = "14:00";
+                addBooking.starttime = "14:00";
                 currentBookings.Add(addBooking);
                 addBooking = new Booking();
                 addBooking.name = "Gita";
@@ -74,6 +78,7 @@ namespace TheListeningHand.Models
                 addBooking.stylist = "Tina Sparkle";
                 addBooking.date = DateTime.Today.ToShortDateString();
                 addBooking.time = "15:00";
+                addBooking.starttime = "15:00";
                 currentBookings.Add(addBooking);
                 addBooking = new Booking();
                 addBooking.name = "Gita's Mum";
@@ -82,6 +87,7 @@ namespace TheListeningHand.Models
                 addBooking.info = "Frizzy hair";
                 addBooking.stylist = "Tina Sparkle";
                 addBooking.date = DateTime.Today.AddDays(1).ToShortDateString();
+                addBooking.starttime = "09:00";
                 addBooking.time = "09:00";
                 currentBookings.Add(addBooking);
                 addBooking = new Booking();
@@ -91,6 +97,7 @@ namespace TheListeningHand.Models
                 addBooking.info = "Frizzy hair";
                 addBooking.stylist = "Tina Sparkle";
                 addBooking.date = DateTime.Today.AddDays(1).ToShortDateString();
+                addBooking.starttime = "10:00";
                 addBooking.time = "10:00";
                 currentBookings.Add(addBooking);
 
