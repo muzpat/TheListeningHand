@@ -25,7 +25,7 @@
                 url: "@Url.Action("GetUsers", "Home")",
                 type: "GET",
                 dataType: 'json',
-                data: { stylist: 1 },
+                data: { stylist: '@ViewBag.username' },
                 cache: false,
                 async: true,
                 success: function (data) {
@@ -41,7 +41,7 @@
                     var backcolor = 'E5E8E8';
                     $('#Grid').append('<table style="white-space: nowrap;"><thead>     <tr>       ');
                     // headings
-                    $('#Grid').append(' <th>&nbsp&nbsp' + 'id' + '&nbsp;&nbsp;</th><th>&nbsp;&nbsp;&nbsp;&nbsp;' + 'name' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>');
+                 //   $('#Grid').append(' <th>&nbsp&nbsp' + 'id' + '&nbsp;&nbsp;</th><th>&nbsp;&nbsp;&nbsp;&nbsp;' + 'name' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>');
                     $('#Grid').append('</tr> </thead>');
 
                     var start = 0;
@@ -71,10 +71,10 @@
                         }
                         //debugger;
                         if (lastday != items[i].dayId) {
-                       
+
                             lastday = items[i].dayId;
                             if (i != 0) {
-        
+
                                 //  if (lastday != items[i].dayId) {
                                 // lasthour = lasthour + 2;
                                 for (j = lasthour; j < 24; j++) {
@@ -85,7 +85,7 @@
                                 row = row + '<td><button type ="button" name="' + today + '" id="update' + today + '" class="btn btn-primary"  >Update</button></td>';
                                 $('#Grid').append(row);
                                 var chk1 = $('#update' + today);
-                           
+
                                 $('#update' + today).attr('onClick', 'updateuser(this);')
                                 row = '';
                                 lasthour = 0;
@@ -128,12 +128,12 @@
                             }
                             row = row + '<td><input type="checkbox" name="' + today + '" id=' + items[i].starttime + ':00"' + ' value="' + items[i].starttime + ':00"' + ' checked="checked">' + items[i].starttime + ":00" + '</input></td>';
                             lasthour = lasthour + 1;
-                        } 
+                        }
 
                     }
                     // input data all read
                     // complete last row
-             
+
                  if (start != 99) {
                      for (j = lasthour; j < 24; j++) {
                          row = row + '<td><input type="checkbox" name="' + today + '" id=' + j.toString() + ':00"' + ' value="' + j.toString() + ':00"' + '>' + j.toString() + ":00" + '</input></td>';
@@ -142,6 +142,16 @@
                      // shouldn't refer to item[i] as that was the previous row!
                      row = row + '<td><button type ="button" name="' + today + '" id="update' + today + '" class="btn btn-primary"  >Update</button></td>';
                      $('#Grid').append(row);
+                 }
+                 else {
+                     for (j = lasthour; j < 24; j++) {
+                         row = row + '<td><input type="checkbox" name="' + today + '" id=' + j.toString() + ':00"' + ' value="' + j.toString() + ':00"' + '>' + j.toString() + ":00" + '</input></td>';
+                         lasthour = j;
+                     }
+                     // shouldn't refer to item[i] as that was the previous row!
+                     row = row + '<td><button type ="button" name="' + today + '" id="update' + today + '" class="btn btn-primary"  >Update</button></td>';
+                     $('#Grid').append(row);
+
                  }
                     var chk1 = $('#update' + today);
                     $('#update' + today).attr('onClick', 'updateuser(this);')
@@ -169,13 +179,12 @@
                 availability.hrs.push(sbox[i].checked);
             }
             console.log(availability.hrs);
-
             var parm2 = JSON.stringify(availability);
             $.ajax({
                 url: "@Url.Action("UpdateUser", "Home")",
                 type: "GET",
                 dataType: 'json',
-                data: { stylist: 1, arrayhrs: parm2, day: day },
+                data: { stylist: '@ViewBag.username', arrayhrs: parm2, day: day },
                 cache: false,
                 async: true,
                 success: function (data) {

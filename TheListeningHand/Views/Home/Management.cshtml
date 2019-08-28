@@ -5,13 +5,13 @@
 
 <div class="container">
     @*<h1>@ViewBag.Stylist</h1>*@
-    <h2 style="align-content:center">Salon Appointments by Day</h2>
+    <h2 style="align-content:center">Salon Appointments by Day  @ViewBag.Today</h2>
     @*@Html.ActionLink("Home", "Index", "Home")*@
     <table class="table table_condensed" id="Grid"></table>
 </div>
 @section Scripts {
     <script type="text/javascript">
-
+        var Todayx = '@ViewBag.Todayx';
         $(document).ready(function () {
                              $.ajax({
                                  url: '@Url.Action("GetAllAppointments", "Home")',
@@ -86,14 +86,33 @@
             var data = $.parseJSON(response);
 
             //   alert(data.BeeHive[0].beeType);
-            $('#Grid').append('<table><tr><th>Date</th><th>Time</th><th>Stylist</th><th>Customer</th><th>Phone</th><th>Style</th><th>Info</th></tr>');
+            $('#Grid').append('<table><tr><th>Day</th><th>Date</th><th>Time</th><th>Stylist</th><th>Customer</th><th>Phone</th><th>Style</th><th>Info</th></tr>');
 
             for (var i = 0; i < data.length; ++i) {
-                //                 $('#Grid').append('<div class="name">' + ToJavaScriptDate(data[i].review_date) + ' ' + data[i].review_stage
-                //                     + ' ' + data[i].ops_product_id + ' ' + data[i].ProducT_sub_group_code
-                //                     + '</>');
+                if (data[i].dayId == 1) {
+                    today = "Sunday";
+                } else if (data[i].dayId == 2) {
+                    today = "Monday";
+                } else if (data[i].dayId == 3) {
+                    today = "Tuesday";
+                } else if (data[i].dayId == 4) {
+                    today = "Wednesday";
+                } else if (data[i].dayId == 5) {
+                    today = "Thursday";
+                } else if (data[i].dayId == 6) {
+                    today = "Friday";
+                } else if (data[i].dayId == 7) {
+                    today = "Saturday";
+                } else {
+                    today = "n/a";
+                }
 
-                $('#Grid').append('<tr bgcolor="#42f489"><td>' + data[i].date + '</td><td>' + data[i].time + '</td><td>'
+                var datecmp = dateformat(data[i].appdate);
+                if (datecmp == Todayx) {
+                    today = "Today";
+                }
+
+                $('#Grid').append('<tr bgcolor="#42f489"><td>' + today + '</td><td>' + dateformat(data[i].appdate) + '</td><td>' + data[i].apptime + ":00" + '</td><td>'
                                + data[i].stylist + '</td><td>' + data[i].name + '</td><td>' + data[i].phone + '</td><td>'
                                + data[i].style + '</td><td>' + data[i].info + '</td><td>'
                    + '</td></tr>');
@@ -113,6 +132,14 @@
             debugger;
             alert('here!');
         });
+
+        function dateformat(roughdate) {
+
+            var yr = roughdate.substring(0, 4);
+            var mnth = roughdate.substring(4, 6);
+            var days = roughdate.substring(6, 8);
+            return days + "/" + mnth + "/" + yr;
+        }
         function book(name, e) {
             var myId = e.id;
             var Xexisting =  $('#' + myId )

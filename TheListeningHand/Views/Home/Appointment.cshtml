@@ -90,11 +90,17 @@
                             row = row + '</div> <ul class="list-group list-group-flush"> ';
                             yesterday = data[i].theday;
                         }
+                        
                         var situation = data[i].time + ':00 ';  // + data[i].customer;
+                        if (data[i].apptime.length > 0) {
+                            situation = data[i].time + ':00 ' + " not available";
+                        }
                         if (situation.length > 6) {
                             //  situation = "Not Available";
                         }
-                        row = row + ' <li     class="list-group-item"><a  id="a' + data[i].theday.replace('/', '').replace('/', '') + data[i].time.replace(':', '') + '" data-date="' + data[i].theday + '"  data-time="' + data[i].time + '" href="#" class="mylink" style= "color:blue">' + situation + '</a></li>';
+                        if (data[i].time != 99) {
+                            row = row + ' <li     class="list-group-item"><a  id="a' + data[i].theday.replace('/', '').replace('/', '') + data[i].time.replace(':', '') + '" data-date="' + data[i].theday + '"  data-time="' + data[i].time + '" href="#" class="mylink" style= "color:blue">' + situation + '</a></li>';
+                        }
                         laststarttime = data[i].time;
                     }
                     row = row + '</div> </div></div>'

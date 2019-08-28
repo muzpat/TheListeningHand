@@ -39,6 +39,7 @@ namespace TheListeningHand.Controllers
             public string dayId { get; set; }
             public string starttime { get; set; }
             public string time { get; set; }
+            public string apptime { get; set; }
         }
         public class UserDetails
         {
@@ -67,7 +68,8 @@ namespace TheListeningHand.Controllers
         {
             TheListeningHand.Models.TheListeningHandEntities context = new TheListeningHandEntities();
             List<stylist> stylists = context.stylists.ToList();
-            string myText = "<select id=\"postage\"><option value=\"0\">Please select...</option><option value=\"1\">Anyone Available</option> ";
+            //  string myText = "<select id=\"postage\"><option value=\"0\">Please select...</option><option value=\"1\">Anyone Available</option> ";
+            string myText = "<select id=\"postage\"><option value=\"0\">Please select...</option> ";
             foreach (stylist dresser in stylists)
             {
                 myText = myText + "<option value=\"" + dresser.id + "\">" + dresser.name + "</option>";
@@ -277,6 +279,7 @@ namespace TheListeningHand.Controllers
                                 userslot.dayId = rdr.GetValue(3).ToString();
                                 userslot.starttime = rdr.GetValue(4).ToString();
                                 userslot.time = rdr.GetValue(5).ToString();
+                                userslot.apptime = rdr.GetValue(7).ToString();
                                 userlist.Add(userslot);
                             }            
                         }
@@ -314,8 +317,9 @@ namespace TheListeningHand.Controllers
                         conn.Open();
                         //   cmd.Parameters.Add(new MySqlParameter("stylist", MySqlDbType.Int32, myStylistid));
                         MySqlParameter[] pms = new MySqlParameter[1];
-                        pms[0] = new MySqlParameter("xstylist", MySqlDbType.Int32);
-                        pms[0].Value = stylist;
+                        pms[0] = new MySqlParameter("mykey", MySqlDbType.Int32);
+                        pms[0].Value = myStylistid;
+                        cmd.Parameters.AddRange(pms);
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.CommandText = "spGetUserDetails";
                         rdr = cmd.ExecuteReader();
@@ -350,8 +354,15 @@ namespace TheListeningHand.Controllers
             return Json(userlist, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public ActionResult UpdateUser(int stylist, string arrayhrs, string day )
+        public ActionResult UpdateUser(string stylist, string arrayhrs, string day )
         {
+            TheListeningHand.Models.TheListeningHandEntities context = new TheListeningHandEntities();
+            int myStylistid = 1;
+            var st = context.stylists.Where(s => s.name == stylist).FirstOrDefault();
+            if (st != null)
+            {
+                myStylistid = (int)st.id;
+            }
             dynamic table = JsonConvert.DeserializeObject(arrayhrs);
             string hrs = "";
             int i = 0;
@@ -408,12 +419,15 @@ namespace TheListeningHand.Controllers
             {
                 try
                 {
-                    hrs = hrs.Remove(hrs.Length - 1, 1);
+                    if (hrs.Length > 0)
+                    {
+                        hrs = hrs.Remove(hrs.Length - 1, 1);
+                    }
                     using (MySqlCommand cmd = new MySqlCommand("spUpdateAvailabilty", conn))
                     {
                         MySqlParameter[] pms = new MySqlParameter[3];
                         pms[0] = new MySqlParameter("stylist", MySqlDbType.Int32);
-                        pms[0].Value = stylist;
+                        pms[0].Value = myStylistid;
                         pms[1] = new MySqlParameter("hrs", MySqlDbType.VarChar, 100);
                         pms[1].Value = hrs;
                         pms[2] = new MySqlParameter("xayId", MySqlDbType.Int32);
@@ -433,10 +447,6 @@ namespace TheListeningHand.Controllers
                 }
             }
 
-
-
-
-            TheListeningHand.Models.TheListeningHandEntities context = new TheListeningHandEntities();
         //    context.spUpdateAvailabilty(stylist, hrs, dayId);
             List<stylist> stylists = context.stylists.ToList();
             return Json(stylists, JsonRequestBehavior.AllowGet);
@@ -523,6 +533,13 @@ namespace TheListeningHand.Controllers
             TheListeningHand.Models.TheListeningHandEntities context = new TheListeningHandEntities();
             string connstr = System.Configuration.ConfigurationManager.ConnectionStrings["name"].ConnectionString;
 
+            int myStylistid = 1;
+            var st = context.stylists.Where(s => s.name == stylist).FirstOrDefault();
+            if (st != null)
+            {
+                myStylistid = (int)st.id;
+            }
+
             using (MySqlConnection conn = new MySqlConnection(connstr))
             {
                 MySqlDataReader rdr = null;
@@ -533,12 +550,13 @@ namespace TheListeningHand.Controllers
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                        //   cmd.Parameters.Add(new MySqlParameter("stylist", MySqlDbType.Int32, myStylistid));
-                     //   MySqlParameter[] pms = new MySqlParameter[2];
-                     //   pms[0] = new MySqlParameter("name", MySqlDbType.VarChar, 40);
-                     //   pms[0].Value = stylistname;
-                     //   pms[1] = new MySqlParameter("email", MySqlDbType.VarChar, 40);
-                     //   pms[1].Value = email;
+                   //   cmd.Parameters.Add(new MySqlParameter("stylist", MySqlDbType.Int32, myStylistid));
+                      MySqlParameter[] pms = new MySqlParameter[1];
+                      pms[0] = new MySqlParameter("stylistid", MySqlDbType.VarChar, 40);
+                      pms[0].Value = myStylistid;
+                        //   pms[1] = new MySqlParameter("email", MySqlDbType.VarChar, 40);
+                        //   pms[1].Value = email;
+                        cmd.Parameters.AddRange(pms);
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.CommandText = "spGetBookings";
                       //  cmd.Parameters.AddRange(pms);
@@ -586,6 +604,13 @@ namespace TheListeningHand.Controllers
         [HttpGet]
         public ActionResult AddAppointment(string name, string phone, string style, string info, string stylist, string date, string time)
         {
+            TheListeningHand.Models.TheListeningHandEntities context = new TheListeningHandEntities();
+            int myStylistid = 1;
+            var st = context.stylists.Where(s => s.name == stylist).FirstOrDefault();
+            if (st != null)
+            {
+                myStylistid = (int)st.id;
+            }
             int iTime = int.Parse(time);
             string connstr = System.Configuration.ConfigurationManager.ConnectionStrings["name"].ConnectionString;
             List<UserDetails> userlist = new List<UserDetails>();
@@ -596,7 +621,7 @@ namespace TheListeningHand.Controllers
 
                     using (MySqlCommand cmd = new MySqlCommand("spUpdateAvailabilty", conn))
                     {
-                        MySqlParameter[] pms = new MySqlParameter[7];
+                        MySqlParameter[] pms = new MySqlParameter[8];
                         pms[0] = new MySqlParameter("name", MySqlDbType.VarChar, 40);
                         pms[0].Value = name;
                         pms[1] = new MySqlParameter("phone", MySqlDbType.VarChar, 40);
@@ -611,6 +636,8 @@ namespace TheListeningHand.Controllers
                         pms[5].Value = date;
                         pms[6] = new MySqlParameter("time", MySqlDbType.Int32);
                         pms[6].Value = iTime;
+                        pms[7] = new MySqlParameter("sid", MySqlDbType.Int32);
+                        pms[7].Value = myStylistid;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.CommandText = "spAddAppointment";
                         cmd.Parameters.AddRange(pms);
@@ -629,10 +656,70 @@ namespace TheListeningHand.Controllers
         }
         [HttpGet]
         public ActionResult GetAllAppointments()
-        {
-            Bookings myBookings = new Bookings();
-            var thebook = myBookings.GetBookings();
-            return Json(thebook, JsonRequestBehavior.AllowGet);
+        {         
+            List<aAppointment> userlist = new List<aAppointment>();
+            TheListeningHand.Models.TheListeningHandEntities context = new TheListeningHandEntities();
+            string connstr = System.Configuration.ConfigurationManager.ConnectionStrings["name"].ConnectionString;
+
+            using (MySqlConnection conn = new MySqlConnection(connstr))
+            {
+                MySqlDataReader rdr = null;
+
+                try
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("spAllAppointments", conn))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        //   cmd.Parameters.Add(new MySqlParameter("stylist", MySqlDbType.Int32, myStylistid));
+                     //   MySqlParameter[] pms = new MySqlParameter[1];
+                      //  pms[0] = new MySqlParameter("stylistid", MySqlDbType.VarChar, 40);
+                      //  pms[0].Value = myStylistid;
+                        //   pms[1] = new MySqlParameter("email", MySqlDbType.VarChar, 40);
+                        //   pms[1].Value = email;
+                     //   cmd.Parameters.AddRange(pms);
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = "spAllAppointments";
+                        //  cmd.Parameters.AddRange(pms);
+                        conn.Open();
+                        rdr = cmd.ExecuteReader();
+
+                        var jsonResult = new System.Text.StringBuilder();
+                        if (!rdr.HasRows)
+                        {
+                            jsonResult.Append("[]");
+                        }
+                        else
+                        {
+                            while (rdr.Read())
+                            {
+                                aAppointment userslot = new aAppointment();
+                                userslot.dayoftheweek = rdr.GetValue(2).ToString();
+                                userslot.theday = rdr.GetValue(11).ToString();
+                                userslot.stylistid = rdr.GetValue(1).ToString();
+                                userslot.dayId = rdr.GetValue(2).ToString();
+                                userslot.starttime = rdr.GetValue(3).ToString();
+                                userslot.name = rdr.GetValue(6).ToString();
+                                userslot.phone = rdr.GetValue(7).ToString();
+                                userslot.style = rdr.GetValue(8).ToString();
+                                userslot.info = rdr.GetValue(9).ToString();
+                                userslot.stylist = rdr.GetValue(10).ToString();
+                                userslot.appdate = rdr.GetValue(11).ToString();
+                                userslot.apptime = rdr.GetValue(5).ToString();
+
+                                userlist.Add(userslot);
+                            }
+                        }
+                        conn.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var str = ex.Message;
+                }
+            }
+           
+            return Json(userlist, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult GoToAppointment(string stylist)
@@ -660,7 +747,7 @@ namespace TheListeningHand.Controllers
         public ActionResult Management()
         {
             ViewBag.Message = "Your contact page.";
-
+            ViewBag.Todayx = DateTime.Today.ToShortDateString();
             return View();
         }
         public ActionResult Blog()
